@@ -19,11 +19,13 @@ cENTRY* centry_new()
      return entry;
 }
 
-void centry_set(cENTRY *entry, const char* lang1name,const char* lang2name, char* word1, char* word2, const char* listname, unsigned int panel, unsigned int days)
+void centry_set(cENTRY *entry, char* lang1name,char* lang2name, char* word1, char* word2, char* listname, unsigned int panel, unsigned int days)
 {
   strcpy(NULLSTR,"");
-  entry->lang1name=lang1name;
-  entry->lang2name=lang2name;
+  entry->lang1name=(char*)malloc(strlen(lang1name)+1);
+  strcpy(entry->lang1name,lang1name);
+  entry->lang2name=(char*)malloc(strlen(lang2name)+1);
+  strcpy(entry->lang2name,lang2name);
   entry->word1 = (char*)malloc(strlen(word1)+1);
   strcpy(entry->word1,word1);
   entry->word2 = (char*)malloc(strlen(word2)+1);
@@ -36,6 +38,8 @@ void centry_set(cENTRY *entry, const char* lang1name,const char* lang2name, char
 
 void centry_delete(cENTRY *entry)
 {
+  free(entry->lang1name);
+  free(entry->lang2name);
   free(entry->word1);
   free(entry->word2);
   free(entry->groupname);

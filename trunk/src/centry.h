@@ -3,8 +3,8 @@
 
 #include <glib.h>
 
-typedef struct {const char* lang1name; //const
-                const char* lang2name; //const
+typedef struct {char *lang1name; //momorymenagemanet
+                char *lang2name; //momorymenagemanet
                 char* word1;           // momorymenagemanet
                 char* word2;           // momorymenagemanet
                 char* groupname;       // momorymenagemanet
@@ -13,7 +13,7 @@ typedef struct {const char* lang1name; //const
                 } cENTRY;
 
 cENTRY* centry_new();
-void centry_set(cENTRY *entry, const char* lang1name,const char* lang2name, char* word1, char* word2, const char* listname, unsigned int panel, unsigned int days);
+void centry_set(cENTRY *entry, char* lang1name,char* lang2name, char* word1, char* word2, char* listname, unsigned int panel, unsigned int days);
 void centry_delete(cENTRY *entry);
 
 gboolean centry_groupexist(cENTRY *entry,char *group);

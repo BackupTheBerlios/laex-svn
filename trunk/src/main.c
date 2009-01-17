@@ -13,12 +13,13 @@
 
 int main (int argc, char *argv[])
 {
+  cDATA *data;
   gtk_init (&argc, &argv);
-  cdata_init();
+  data = cdata_init();
   main_window_init();
-  cdata_get()->main_window_ui = main_window_run(cdata_get());
+  main_window_run(data);
   gtk_main ();
-  main_window_delete(cdata_get());
-  cdata_delete();
+  main_window_delete(data);
+  cdata_delete(data);
   return 0;
 }

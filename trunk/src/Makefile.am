@@ -2,8 +2,6 @@
 
 ## Created by Anjuta
 
-gladedir = $(datadir)/laex/glade
-glade_DATA = laex.glade
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
@@ -42,5 +40,3 @@ laex_LDFLAGS = \
 	-Wl,--export-dynamic
 
 laex_LDADD = $(LAEX_LIBS)
-
-EXTRA_DIST = $(glade_DATA)

@@ -9,6 +9,7 @@
 #define _(x) x
 
 typedef struct {char *dictfile;
+                    int paneldays[5];
 	            GArray *grouplist;
 	            GArray *cwordlist;
 	            GArray *trainlist;
@@ -23,11 +24,14 @@ typedef struct {char *dictfile;
 	            } cDATA;
 
 
-void cdata_init();
-cDATA *cdata_get();
-void cdata_delete();
+cDATA* cdata_init();
 
-void cdata_loaddicfile();
+void cdata_delete(cDATA* data);
+
+void cdata_loaddicfile(cDATA *data);
+void cdata_saveXMLWordList(cDATA *data, char *filename);
+
+void cdata_addgrouptolist(cDATA *data,char *group);
 
 
 #endif /*_DATA_H*/

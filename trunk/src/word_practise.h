@@ -18,7 +18,6 @@ void main_window_WordPractiseShowNextWord(cDATA *data);
 gboolean known(char *original, char* answered);
 
 G_MODULE_EXPORT void main_window_ontoolbuttonWordPractise(GtkWidget *widget, gpointer user_data);
-G_MODULE_EXPORT void main_window_onbtnWordPractiseOK(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_onbtnWordPractiseNext(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonWordPractiseBack(GtkWidget *widget, gpointer user_data);
 

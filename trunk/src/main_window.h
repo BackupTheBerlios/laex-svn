@@ -8,7 +8,7 @@
 
 
 void main_window_init();
-GtkBuilder* main_window_run(gpointer user_data);
+void main_window_run(gpointer user_data);
 void main_window_delete(gpointer user_data);
 
 
@@ -28,6 +28,7 @@ G_MODULE_EXPORT void main_window_onbtnAddGroup(GtkWidget *widget, gpointer user_
 G_MODULE_EXPORT void main_window_onbtnDeleteGroup(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonPreferences(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonHelp(GtkWidget *widget, gpointer user_data);
+G_MODULE_EXPORT void main_window_ontoolbuttonabout(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonDictionary(GtkWidget *widget, gpointer user_data);
 
 

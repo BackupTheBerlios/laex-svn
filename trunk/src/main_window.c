@@ -6,59 +6,57 @@
 #include "dialog_edit_entry.h"
 #include "data.h"
 #include <string.h>
-
-/* private data */
-GtkBuilder *main_window_ui;
-GtkWindow *main_window;
-
+
 void main_window_init()
 {
-   main_window_ui=NULL;
-   main_window=NULL;
 }
 
 void main_window_onConnect(GtkWidget *main_window, gpointer user_data)
 {
-    g_signal_connect(G_OBJECT(main_window),"destroy", G_CALLBACK(main_window_onQuit),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"btnSearch")),"clicked", G_CALLBACK(main_window_onSearch),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toggleProperties")),"toggled", G_CALLBACK(main_window_ontoggleProperties),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"translationTreeView")),"cursor-changed", G_CALLBACK(main_window_ontranslationTreeViewCursorChanged),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"btnAddGroup")),"clicked", G_CALLBACK(main_window_onbtnAddGroup),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"btnDeleteGroup")),"clicked", G_CALLBACK(main_window_onbtnDeleteGroup),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"btnNewEntry")),"clicked", G_CALLBACK(main_window_onbtnNewEntry),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"btnEditEntry")),"clicked", G_CALLBACK(main_window_onbtnEditEntry),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"btnDeleteEntry")),"clicked", G_CALLBACK(main_window_onbtnDeleteEntry),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonTraining")),"clicked", G_CALLBACK(main_window_ontoolbuttonSelectWords),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonPreferences")),"clicked", G_CALLBACK(main_window_ontoolbuttonPreferences),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonHelp")),"clicked", G_CALLBACK(main_window_ontoolbuttonHelp),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonDictionary1")),"clicked", G_CALLBACK(main_window_ontoolbuttonDictionary),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonSelectWords1")),"clicked", G_CALLBACK(main_window_ontoolbuttonSelectWords),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonWordPreview1")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPreview),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonWordPractise1")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPractise),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonDictionary2")),"clicked", G_CALLBACK(main_window_ontoolbuttonDictionary),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonStatistics")),"clicked", G_CALLBACK(main_window_ontoolbuttonStatistics),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonWordPreview2")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPreview),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonWordPractise2")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPractise),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"comboboxSelectGroup")),"changed", G_CALLBACK(main_window_oncomboboxSelectGroup),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"comboboxSelectWords")),"changed", G_CALLBACK(main_window_oncomboboxSelectWords),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"buttonToPanel1")),"clicked", G_CALLBACK(main_window_onbuttonToPanel1),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"buttonToPanel0")),"clicked", G_CALLBACK(main_window_onbuttonToPanel0),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"btnWordPreviewNext")),"clicked", G_CALLBACK(main_window_onbtnWordPreviewNext),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonWordPreviewBack")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPreviewBack),user_data);
-	g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"btnWordPractiseOK")),"clicked", G_CALLBACK(main_window_onbtnWordPractiseOK),user_data);
-    g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"btnWordPractiseNext")),"clicked", G_CALLBACK(main_window_onbtnWordPractiseNext),user_data);
-	g_signal_connect(G_OBJECT(gtk_builder_get_object (main_window_ui,"toolbuttonWordPractiseBack")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPractiseBack),user_data);
-	
-	
+    cDATA* data;
+    data = (cDATA*) user_data;
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"main_window")),"destroy", G_CALLBACK(main_window_onQuit),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnSearch")),"clicked", G_CALLBACK(main_window_onSearch),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toggleProperties")),"toggled", G_CALLBACK(main_window_ontoggleProperties),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"translationTreeView")),"cursor-changed", G_CALLBACK(main_window_ontranslationTreeViewCursorChanged),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnAddGroup")),"clicked", G_CALLBACK(main_window_onbtnAddGroup),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnDeleteGroup")),"clicked", G_CALLBACK(main_window_onbtnDeleteGroup),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnNewEntry")),"clicked", G_CALLBACK(main_window_onbtnNewEntry),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnEditEntry")),"clicked", G_CALLBACK(main_window_onbtnEditEntry),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnDeleteEntry")),"clicked", G_CALLBACK(main_window_onbtnDeleteEntry),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonTraining")),"clicked", G_CALLBACK(main_window_ontoolbuttonSelectWordsInit),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonPreferences")),"clicked", G_CALLBACK(main_window_ontoolbuttonPreferences),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonHelp")),"clicked", G_CALLBACK(main_window_ontoolbuttonHelp),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonabout")),"clicked", G_CALLBACK(main_window_ontoolbuttonabout),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonDictionary1")),"clicked", G_CALLBACK(main_window_ontoolbuttonDictionary),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonSelectWords1")),"clicked", G_CALLBACK(main_window_ontoolbuttonSelectWords),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonWordPreview1")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPreview),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonWordPractise1")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPractise),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonDictionary2")),"clicked", G_CALLBACK(main_window_ontoolbuttonDictionary),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonStatistics")),"clicked", G_CALLBACK(main_window_ontoolbuttonStatistics),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonWordPreview2")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPreview),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonWordPractise2")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPractise),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"comboboxSelectGroup")),"changed", G_CALLBACK(main_window_oncomboboxSelectGroup),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"comboboxSelectWords")),"changed", G_CALLBACK(main_window_oncomboboxSelectWords),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"buttonToPanel1")),"clicked", G_CALLBACK(main_window_onbuttonToPanel1),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"buttonToPanel0")),"clicked", G_CALLBACK(main_window_onbuttonToPanel0),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnWordPreviewNext")),"clicked", G_CALLBACK(main_window_onbtnWordPreviewNext),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonWordPreviewBack")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPreviewBack),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnWordPractiseNext")),"clicked", G_CALLBACK(main_window_onbtnWordPractiseNext),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonWordPractiseBack")),"clicked", G_CALLBACK(main_window_ontoolbuttonWordPractiseBack),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnSelectWordsSelectAll")),"clicked", G_CALLBACK(main_window_onbtnSelectWordsSelectAll),user_data);	
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnSelectWordsToPanel1")),"clicked", G_CALLBACK(main_window_onbtnSelectWordsToPanel1),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnSelectWordsToPanel0")),"clicked", G_CALLBACK(main_window_onbtnSelectWordsToPanel0),user_data);
+
 }
 
-GtkBuilder* main_window_run(gpointer user_data)
+void main_window_run(gpointer user_data)
 { 
  cDATA* data;
+ GtkWindow *main_window;
  data = (cDATA*) user_data;
- main_window_ui = gtk_builder_new ();
- gtk_builder_add_from_file(main_window_ui,"main_window.ui",NULL);
- data->main_window_ui=main_window_ui;
+ data->main_window_ui = gtk_builder_new ();
+ gtk_builder_add_from_file(data->main_window_ui,"main_window.ui",NULL);
  main_window = GTK_WINDOW(gtk_builder_get_object (data->main_window_ui,"main_window"));
  gtk_notebook_set_show_tabs (GTK_NOTEBOOK(gtk_builder_get_object (data->main_window_ui,"notebookmain")),FALSE);
  
@@ -79,19 +77,17 @@ GtkBuilder* main_window_run(gpointer user_data)
   data->dialog_start_training_ui = gtk_builder_new ();
   gtk_builder_add_from_file(data->dialog_start_training_ui,"dialogStartTraining.ui",NULL);
 
- return main_window_ui;
 }
 
 void main_window_delete(gpointer user_data)
 {
     cDATA* data;
     data = (cDATA*) user_data;
-    g_object_unref(G_OBJECT(main_window_ui));
+    g_object_unref(G_OBJECT(data->main_window_ui));
     g_object_unref(G_OBJECT(data->dialog_edit_entry_ui));
     g_object_unref(G_OBJECT(data->dialog_start_training_ui));
-    main_window_ui=NULL;
+    data->main_window_ui=NULL;
     data->dialog_edit_entry_ui=NULL;
-    main_window=NULL;
 }
 
 void main_window_init_translationTreeView(gpointer user_data)
@@ -105,25 +101,25 @@ void main_window_init_translationTreeView(gpointer user_data)
    
    GtkRequisition size;
    //gtk_widget_size_request(widget,&size);
-   data = cdata_get();
-   view = GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"translationTreeView"));
+   data = (cDATA*) user_data;
+   view = GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"translationTreeView"));
    gtk_widget_get_child_requisition(GTK_WIDGET(view),&size);
    col = gtk_tree_view_column_new();
-   gtk_tree_view_column_set_title(col, "German");
+   gtk_tree_view_column_set_title(col, data->lang2name);
    gtk_tree_view_append_column(view, col);
    renderer = gtk_cell_renderer_text_new();
   // pack cell renderer into tree view column
    gtk_tree_view_column_pack_start(col, renderer, TRUE);
    gtk_tree_view_column_set_sizing(col,GTK_TREE_VIEW_COLUMN_FIXED);
-   gtk_tree_view_column_set_fixed_width(col,200);
+   gtk_tree_view_column_set_fixed_width(col,380);
    gtk_tree_view_column_set_resizable(GTK_TREE_VIEW_COLUMN (col), TRUE);
   // connect 'text' property of the cell renderer to
   //  model column that contains the first name
    gtk_tree_view_column_add_attribute(col, renderer, "text", 0);
    col = gtk_tree_view_column_new();
-   gtk_tree_view_column_set_title(col, "English");
+   gtk_tree_view_column_set_title(col, data->lang1name);
   // pack tree view column into tree view
-  gtk_tree_view_column_set_fixed_width(col,200);
+  gtk_tree_view_column_set_fixed_width(col,380);
   gtk_tree_view_append_column(view, col);
   renderer = gtk_cell_renderer_text_new();
   // pack cell renderer into tree view column
@@ -160,7 +156,7 @@ void main_window_init_treeviewGroup(gpointer user_data)
   
     data = (cDATA*) (user_data);    
     renderer = gtk_cell_renderer_toggle_new();
-    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"treeviewGroup")),
+    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")),
                                                          -1,
                                                          "Choice",
                                                          renderer,
@@ -170,7 +166,7 @@ void main_window_init_treeviewGroup(gpointer user_data)
     
     col = gtk_tree_view_column_new();
     gtk_tree_view_column_set_title(col, "Group");
-    gtk_tree_view_append_column(GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"treeviewGroup")), col);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")), col);
    
     renderer = gtk_cell_renderer_text_new();
     gtk_tree_view_column_pack_start(col, renderer, TRUE);
@@ -193,7 +189,7 @@ void main_window_init_treeviewGroup(gpointer user_data)
                                 -1);
        }
 
-     gtk_tree_view_set_model(GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"treeviewGroup")), GTK_TREE_MODEL(treestore));
+     gtk_tree_view_set_model(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")), GTK_TREE_MODEL(treestore));
      g_object_unref(GTK_TREE_MODEL(treestore)); /* destroy model automatically with view */
 }
 
@@ -221,8 +217,8 @@ void main_window_onSearch (GtkWidget *widget, gpointer user_data)
     int i,i2,i3;
     
     g_print("... main_window_onSearch\n");
-    
-	view = GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"translationTreeView"));	
+    data = (cDATA*) (user_data);
+	view = GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"translationTreeView"));	
 	treestore = GTK_TREE_STORE(gtk_tree_view_get_model(view));
     if (treestore==NULL)
       {
@@ -230,7 +226,7 @@ void main_window_onSearch (GtkWidget *widget, gpointer user_data)
                                  G_TYPE_STRING,
                                  G_TYPE_STRING,
                                  G_TYPE_POINTER);
-	   model = GTK_TREE_MODEL(treestore);
+       model = GTK_TREE_MODEL(treestore);
        gtk_tree_view_set_model(GTK_TREE_VIEW(view), model);
                                   
        g_object_unref (model);
@@ -239,10 +235,10 @@ void main_window_onSearch (GtkWidget *widget, gpointer user_data)
 	gtk_tree_store_clear(treestore);
                                  
     
-    data = (cDATA*) (user_data);  
+      
   
     i2=0;
-    word2 = gtk_combo_box_get_active_text(GTK_COMBO_BOX(gtk_builder_get_object (main_window_ui, "comboboxentryWord")));
+    word2 = gtk_combo_box_get_active_text(GTK_COMBO_BOX(gtk_builder_get_object (data->main_window_ui, "comboboxentryWord")));
     word = (char*)malloc(strlen(word2)+1);
     UpperCase(word,word2);    
     
@@ -297,16 +293,18 @@ void main_window_onSearch (GtkWidget *widget, gpointer user_data)
 
 void main_window_ontoggleProperties (GtkWidget *widget, gpointer user_data)
 {
+    cDATA *data;
     g_print("... main_window_ontoggleProperties\n");
+    data = (cDATA*) user_data;
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(widget))==TRUE)
       {
-            gtk_widget_show(GTK_WIDGET(gtk_builder_get_object (main_window_ui,"frameGroup")));
-            gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object (main_window_ui,"alignmentEditWords")));
+            gtk_widget_show(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"frameGroup")));
+            gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"alignmentEditWords")));
             
       } else
       {
-            gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object (main_window_ui,"frameGroup")));
-            gtk_widget_show(GTK_WIDGET(gtk_builder_get_object (main_window_ui,"alignmentEditWords")));
+            gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"frameGroup")));
+            gtk_widget_show(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"alignmentEditWords")));
       }
       
 }
@@ -315,6 +313,7 @@ void main_window_ontreeviewGroupChoice (GtkCellRendererToggle *cell,gchar *path_
 {
     g_print("... main_window_ontreeviewGroupChoice\n");
     GtkTreeIter  iter;
+    cDATA *data;
     GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
     gboolean enabled;
     GtkTreeModel *model;
@@ -322,7 +321,8 @@ void main_window_ontreeviewGroupChoice (GtkCellRendererToggle *cell,gchar *path_
     cENTRY *entry;
     char *Sges,*S;
     
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"treeviewGroup")));
+    data = (cDATA*) user_data;
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
      
          
     gtk_tree_model_get_iter (model, &iter, path);
@@ -343,35 +343,36 @@ void main_window_ontreeviewGroupChoice (GtkCellRendererToggle *cell,gchar *path_
 			    Sges=NULL;
 			    while (1)
 			    {
-                   if (enabled==TRUE)
-                     {
-                        if (Sges==NULL)
-                          {
-                            Sges=(char*)malloc(strlen(S)+1);
-                            sprintf(Sges,"%s",S);
-                          } else
-                          {
-                            Sges=(char*)realloc(Sges,strlen(Sges)+strlen(S)+2);   
-                            sprintf(Sges,"%s|%s",Sges,S);
-                          }
+                               if (enabled==TRUE)
+                                  {
+                                    if (Sges==NULL)
+                                    {
+                                      Sges=(char*)malloc(strlen(S)+1);
+                                      strcpy(Sges,S);
+                                    } else
+                                    {
+                                      Sges=(char*)realloc(Sges,strlen(Sges)+strlen(S)+2);   
+                                      strcat(Sges,"|");
+                                      strcat(Sges,S);
+                                    }
                         
-                     }
-                   if (gtk_tree_model_iter_next (model,&iter)==FALSE)
-                     {
-                        break;
-                     }
+                                  }
+                                if (gtk_tree_model_iter_next (model,&iter)==FALSE)
+                                  {
+                                     break;
+                                  }
                    
-                   gtk_tree_model_get (model, &iter,0, &enabled, -1);
-                   gtk_tree_model_get (model,&iter,1,&S,-1);
-                 }
+                                gtk_tree_model_get (model, &iter,0, &enabled, -1);
+                                gtk_tree_model_get (model,&iter,1,&S,-1);
+                             }
                  
-                 sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"translationTreeView")));
-                 if (gtk_tree_selection_get_selected (sel, &model, &iter))
-                    {
-                        gtk_tree_model_get (model, &iter, 2, &entry, -1);
-                        free((void*)entry->groupname);
-                        entry->groupname=Sges;
-                    }
+                    sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"translationTreeView")));
+                    if (gtk_tree_selection_get_selected (sel, &model, &iter))
+                       {
+                          gtk_tree_model_get (model, &iter, 2, &entry, -1);
+                          free((void*)entry->groupname);
+                          entry->groupname=Sges;
+                       }
 }
 
 
@@ -386,9 +387,12 @@ void main_window_ontranslationTreeViewCursorChanged(GtkTreeView *tree_view,gpoin
     GtkTreeIter iterGroup;
     cENTRY *entry;
     char *S;
+    cDATA* data;
+    
     g_print("... main_window_ontranslationTreeViewCursorChanged\n");
     
-    treeviewGroup=GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"treeviewGroup"));
+    data = (cDATA*) user_data;
+    treeviewGroup=GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup"));
     modelGroup = gtk_tree_view_get_model(treeviewGroup);
     
     sel = gtk_tree_view_get_selection(tree_view);
@@ -420,13 +424,13 @@ void main_window_ontreeviewGroupEdited(GtkCellRendererText *cell,gchar *path_str
     GtkTreeModel *model;
     GtkTreeIter iter;
     GtkTreePath *path; 
-    char *oldText;
+    char *oldText,*S;
     int i;
     cDATA *data;
     cENTRY *entry;
     g_print("... main_window_ontreeviewGroupEdited\n");
     data = (cDATA*) user_data;
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"treeviewGroup")));
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
     path = gtk_tree_path_new_from_string (path_string);
     gtk_tree_model_get_iter (model, &iter, path);
     
@@ -434,10 +438,22 @@ void main_window_ontreeviewGroupEdited(GtkCellRendererText *cell,gchar *path_str
     
     
     
+    
     for (i=0;i!=(int)data->cwordlist->len;i++)
       {
          entry = g_array_index (data->cwordlist, cENTRY*, i);
          centry_groupchange(entry,oldText,new_text);
+      }
+    for (i=0;i!=(int)data->grouplist->len;i++)
+      {
+         S = g_array_index (data->grouplist, char*, i);
+         if (strcmp(S,oldText)==0)
+           {
+             free(S);
+             S=(char*)malloc(strlen(new_text)+1);
+             strcpy(S,new_text);
+           }
+         
       }
     
     free(oldText);
@@ -460,7 +476,7 @@ void main_window_onbtnAddGroup(GtkWidget *widget, gpointer user_data)
      cDATA *data;
      g_print("... main_window_onbtnAddGroup\n");
      data = (cDATA*) user_data;
-     model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"treeviewGroup")));
+     model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
      treestore = GTK_TREE_STORE(model);
 
      S = (char*) malloc(strlen(_("New Group"))+1);
@@ -486,8 +502,8 @@ void main_window_onbtnDeleteGroup(GtkWidget *widget, gpointer user_data)
     cENTRY *entry;
     g_print("... main_window_onbtnDeleteGroup\n");
     data = (cDATA*) user_data;
-    sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"treeviewGroup")));
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (main_window_ui,"treeviewGroup")));
+    sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
     treestore = GTK_TREE_STORE(model);
     if (gtk_tree_selection_get_selected (sel, &model, &iter))
         {
@@ -506,8 +522,10 @@ void main_window_onbtnDeleteGroup(GtkWidget *widget, gpointer user_data)
 
 void main_window_ontoolbuttonDictionary(GtkWidget *widget, gpointer user_data)
 {
+    cDATA *data;
     g_print("... main_window_ontoolbuttonDictionary\n");
-    gtk_notebook_set_current_page(GTK_NOTEBOOK(gtk_builder_get_object (main_window_ui,"notebookmain")),0);
+    data = (cDATA*) user_data;
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(gtk_builder_get_object (data->main_window_ui,"notebookmain")),0);
 }
 
 void main_window_ontoolbuttonPreferences(GtkWidget *widget, gpointer user_data)
@@ -519,4 +537,16 @@ void main_window_ontoolbuttonHelp(GtkWidget *widget, gpointer user_data)
 {
     g_print("... main_window_ontoolbuttonHelp\n");
 }
-
+void main_window_ontoolbuttonabout(GtkWidget *widget, gpointer user_data)
+{
+    cDATA *data;
+    g_print("... main_window_ontoolbuttonabout\n");
+    data = (cDATA*) user_data;
+    gtk_show_about_dialog (GTK_WINDOW(gtk_builder_get_object (data->main_window_ui,"main_window")),
+                       "program-name", "Language Explorer",
+                       "title", _("About Language Explorer"),
+                       "version","0.1",
+                       "website","http://laex.berlios.de/",
+                       "copyright","Copyright © 2009 Christian Klein",
+                       NULL);
+}
