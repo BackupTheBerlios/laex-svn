@@ -75,7 +75,7 @@ void main_window_ontoolbuttonWordPreview(GtkWidget *widget, gpointer user_data)
                                          GTK_STOCK_OK,
                                          GTK_RESPONSE_NONE,
                                          NULL);
-            content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog2));
+            content_area = GTK_WIDGET(GTK_DIALOG(dialog)->vbox);//gtk_dialog_get_content_area (GTK_DIALOG (dialog2));
             label = gtk_label_new (_("There are no Words selected in this group!\nOnly words from Panel 1 to 4 will be asked!"));
             alig = gtk_alignment_new(0.5,0.5,0.5,0.5);
             gtk_alignment_set_padding ( GTK_ALIGNMENT(alig),48,48,24,24);

@@ -266,7 +266,7 @@ void main_window_onbtnSelectWordsToPanel1(GtkWidget *widget, gpointer user_data)
                                          GTK_STOCK_NO,
                                          GTK_RESPONSE_NO,
                                          NULL);
-   content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+   content_area = GTK_WIDGET(GTK_DIALOG(dialog)->vbox);//gtk_dialog_get_content_area (GTK_DIALOG (dialog));
    label = gtk_label_new (_("Are you sure that you want to put every word in this group (2-4) to Panel 1?"));
    //gtk_unref(label);
    alig = gtk_alignment_new(0.5,0.5,0.5,0.5);
@@ -311,7 +311,7 @@ void main_window_onbtnSelectWordsToPanel0(GtkWidget *widget, gpointer user_data)
                                          GTK_STOCK_NO,
                                          GTK_RESPONSE_NO,
                                          NULL);
-   content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+   content_area = GTK_WIDGET(GTK_DIALOG(dialog)->vbox);//gtk_dialog_get_content_area (GTK_DIALOG (dialog));
    label = gtk_label_new (_("Are you sure that you want to put every word to Panel 0?"));
    //gtk_unref(label);
    alig = gtk_alignment_new(0.5,0.5,0.5,0.5);
