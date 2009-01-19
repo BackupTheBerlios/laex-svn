@@ -15,6 +15,7 @@ void main_window_delete(gpointer user_data);
 void main_window_onConnect(GtkWidget *main_window, gpointer user_data);
 void main_window_init_translationTreeView(gpointer user_data);
 void main_window_init_treeviewGroup(gpointer user_data);
+void main_window_Show_treeviewGroup(gpointer user_data);
 
 
 

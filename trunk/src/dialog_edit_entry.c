@@ -11,6 +11,7 @@
 #include "centry.h"
 #include "dialog_edit_entry.h"
 #include "main_window.h"
+#include <string.h>
 
 void main_window_init_comboboxPanel(gpointer user_data)
 {
@@ -95,7 +96,10 @@ void main_window_onbtnEditEntry(GtkWidget *widget, gpointer user_data)
     GtkTreeModel *model;
     GtkTreeIter iter;
     GtkTreeStore *treestore;
-    cENTRY *entry;
+    cENTRY *entry,*entry2;
+    char *S,*S2;
+    int oldentrypos;
+    int i;
     
     g_print("... main_window_onbtnEditEntry\n");
     data = (cDATA*) user_data;
@@ -114,15 +118,52 @@ void main_window_onbtnEditEntry(GtkWidget *widget, gpointer user_data)
     
     gtk_tree_model_get (model, &iter, 2, &entry, -1);
     
+    oldentrypos=-1;
+    for (i=0;i!=(int)data->cwordlist->len;i++)
+          {
+             entry2 = g_array_index (data->cwordlist, cENTRY*, i);
+             if (entry==entry2)
+               {
+                   oldentrypos=i;
+                  break;
+               }
+          }
+    if (oldentrypos==-1)
+      {
+        g_print("Error: main_window_onbtnEditEntry");
+        return;
+      }
     gtk_entry_set_text(entryTranslationlang1,entry->word1);
     gtk_entry_set_text(entryTranslationlang2,entry->word2);
     gtk_entry_set_text(entryLanguageName1,entry->lang1name);
     gtk_entry_set_text(entryLanguageName2,entry->lang2name);
     gtk_entry_set_text(entryGroup,entry->groupname);
     gtk_spin_button_set_value(spinbuttonDays,(gdouble)entry->days);
+    gtk_combo_box_set_active(comboboxPanel,entry->panel);
     if (gtk_dialog_run (GTK_DIALOG(dialog))==GTK_RESPONSE_OK)
       {
-
+          g_array_remove_index (data->cwordlist,oldentrypos);
+          centry_delete(entry);
+          entry=centry_new();
+          centry_set(entry, (char*)gtk_entry_get_text(entryLanguageName1),(char*)gtk_entry_get_text(entryLanguageName2),(char*)gtk_entry_get_text(entryTranslationlang1), (char*)gtk_entry_get_text(entryTranslationlang2), (char*)gtk_entry_get_text(entryGroup),gtk_combo_box_get_active(comboboxPanel),gtk_spin_button_get_value_as_int(spinbuttonDays));
+          S=(char*)malloc(strlen(entry->word1)+1);
+          UpperCase(S,entry->word1);
+          for (i=0;i!=(int)data->cwordlist->len;i++)
+           {
+             entry2 = g_array_index (data->cwordlist, cENTRY*, i);
+             S2 = (char*)malloc(strlen(entry2->word1)+1);
+             UpperCase(S2,entry2->word1);
+             if (strcmp(S,S2) < 0)
+               {
+                  g_array_insert_val(data->cwordlist,i,entry);
+                  free(S2);
+                  break;
+               }
+             free(S2);
+           } 
+          free(S);
+          main_window_Show_treeviewGroup(user_data);
+          main_window_onSearch(widget,user_data);
       }
     gtk_widget_hide(dialog);
 }
@@ -170,7 +211,8 @@ void main_window_onbtnDeleteEntry(GtkWidget *widget, gpointer user_data)
                   break;
                }
           }
+        main_window_Show_treeviewGroup(user_data);
+        main_window_onSearch(widget,user_data);
      }
   gtk_widget_destroy (dialog);
-  main_window_onSearch(widget,user_data);
 }

@@ -54,15 +54,14 @@ void cdata_loaddicfile(cDATA *data)
            cfgets(S, 2000, f);
            if (feof(f) != 0) break;
 	       if (S[0]=='#') continue;i++;
-           if (GetStringColumn(lang1,S,"::",0)!=0) continue;
-	   if (GetStringColumn(lang2,S,"::",1)!=0) continue;
-	   if (GetStringColumn(la1,S,"::",2)!=0) {sprintf(la1,"German");};
-	   if (GetStringColumn(la2,S,"::",3)!=0) {sprintf(la2,"English");};
-	   if (GetStringColumn(group,S,"::",4)!=0) {sprintf(group,"");};
+           if (GetStringColumn(lang1,S,"::",0)!=0) continue;DeleteSpaceBegEnd (lang1);
+	   if (GetStringColumn(lang2,S,"::",1)!=0) continue;DeleteSpaceBegEnd (lang2);
+	   if (GetStringColumn(la1,S,"::",2)!=0) {sprintf(la1,"German");};DeleteSpaceBegEnd (la1);
+	   if (GetStringColumn(la2,S,"::",3)!=0) {sprintf(la2,"English");};DeleteSpaceBegEnd (la2);
+	   if (GetStringColumn(group,S,"::",4)!=0) {sprintf(group,"");};DeleteSpaceBegEnd (group);
 	   if (GetStringColumn(panels,S,"::",5)!=0) {sprintf(panels,"0");};
 	   if (GetStringColumn(dayss,S,"::",6)!=0) {sprintf(dayss,"0");};
 	   centry_set(entry, la1,la2, lang1, lang2, group, atoi(panels),atoi(dayss));
-	   cdata_addgrouptolist(data,group);
 	   if (strstr(group,"0")!=0) g_print("Error in line %d\n",i);
 	   g_array_append_val(data->cwordlist,entry);
         }

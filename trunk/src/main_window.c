@@ -147,10 +147,8 @@ void main_window_init_translationTreeView(gpointer user_data)
 
 void main_window_init_treeviewGroup(gpointer user_data)
 {
-    int i;
     cDATA *data;
     GtkTreeStore *treestore;
-    GtkTreeIter toplevel;
     GtkTreeViewColumn *col;
     GtkCellRenderer *renderer;
   
@@ -178,8 +176,40 @@ void main_window_init_treeviewGroup(gpointer user_data)
                                  G_TYPE_BOOLEAN,
                                  G_TYPE_STRING);
 
+     gtk_tree_view_set_model(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")), GTK_TREE_MODEL(treestore));
+     g_object_unref(GTK_TREE_MODEL(treestore)); /* destroy model automatically with view */
+     main_window_Show_treeviewGroup(user_data);
+}
 
 
+void main_window_Show_treeviewGroup(gpointer user_data)
+{
+     GtkTreeView *view;
+     GtkTreeStore *treestore;
+     cDATA *data;
+     GtkTreeIter toplevel;
+     data = (cDATA*) (user_data);
+     int i;
+     cENTRY *entry;
+     view = GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup"));	
+     treestore = GTK_TREE_STORE(gtk_tree_view_get_model(view));
+     if (treestore==NULL) return;
+     
+     for (i=0;i!=(int)data->grouplist->len;i++)
+      {
+         free(g_array_index (data->grouplist, char*, i));
+       }
+      g_array_free(data->grouplist,TRUE);
+     data->grouplist = g_array_new(TRUE,FALSE,sizeof(char*));
+     for (i=0;i!=(int)data->cwordlist->len;i++)
+      {
+         entry=g_array_index (data->cwordlist, cENTRY*, i),
+         cdata_addgrouptolist(data,entry->groupname);      
+       }
+     
+     
+     
+     gtk_tree_store_clear(treestore);
      for (i=0;i!=(int)data->grouplist->len;i++)
       {
          gtk_tree_store_append(treestore, &toplevel, NULL);
@@ -188,11 +218,7 @@ void main_window_init_treeviewGroup(gpointer user_data)
                                 1, g_array_index (data->grouplist, char*, i),
                                 -1);
        }
-
-     gtk_tree_view_set_model(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")), GTK_TREE_MODEL(treestore));
-     g_object_unref(GTK_TREE_MODEL(treestore)); /* destroy model automatically with view */
 }
-
 
 
 
