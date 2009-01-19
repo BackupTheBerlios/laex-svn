@@ -184,6 +184,7 @@ void main_window_copy_selected_to_Panel1(GtkTreeModel *model,GtkTreePath *path, 
     cENTRY *entry;
     gtk_tree_model_get (model, iter, 2, &entry, -1);
     entry->panel=1;
+    entry->days=0;
 }
 
 void main_window_copy_selected_to_Panel0(GtkTreeModel *model,GtkTreePath *path, GtkTreeIter *iter, gpointer data)
@@ -191,6 +192,7 @@ void main_window_copy_selected_to_Panel0(GtkTreeModel *model,GtkTreePath *path, 
     cENTRY *entry;
     gtk_tree_model_get (model, iter, 2, &entry, -1);
     entry->panel=0;
+    entry->days=0;
 }
 
 void main_window_onbuttonToPanel1(GtkWidget *widget, gpointer user_data)
@@ -283,6 +285,7 @@ void main_window_onbtnSelectWordsToPanel1(GtkWidget *widget, gpointer user_data)
               if ((entry->panel>0) && (centry_groupexist(entry,group)==TRUE))
                 {
                    entry->panel=1;
+                   entry->days=0;
                 }
            } 
        
@@ -328,6 +331,7 @@ void main_window_onbtnSelectWordsToPanel0(GtkWidget *widget, gpointer user_data)
               if (centry_groupexist(entry,group)==TRUE)
                 {
                    entry->panel=0;
+                   entry->days=0;
                 }
            } 
        
