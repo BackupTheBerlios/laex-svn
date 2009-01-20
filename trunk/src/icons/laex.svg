@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="311.23471"
+   height="147.19373"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="laex.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0"
+   enable-background="new"
+   inkscape:export-filename="/home/chrikle/Desktop/Projekte/laex/trunk/src/laex2.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient2493">
+      <stop
+         style="stop-color:#d40000;stop-opacity:1;"
+         offset="0"
+         id="stop2495" />
+      <stop
+         style="stop-color:#ffff99;stop-opacity:1"
+         offset="1"
+         id="stop2497" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient2412">
+      <stop
+         style="stop-color:#00ff00;stop-opacity:1;"
+         offset="0"
+         id="stop2414" />
+      <stop
+         style="stop-color:#0000ff;stop-opacity:1"
+         offset="1"
+         id="stop2416" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient2393">
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="0"
+         id="stop2395" />
+      <stop
+         style="stop-color:#ff0000;stop-opacity:0;"
+         offset="1"
+         id="stop2397" />
+    </linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2393"
+       id="linearGradient2399"
+       x1="160"
+       y1="299.50504"
+       x2="474.28571"
+       y2="468.07648"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0488382,0,0,0.9278249,-10.54186,23.981509)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2412"
+       id="linearGradient2418"
+       x1="473.04333"
+       y1="288.11496"
+       x2="250.70958"
+       y2="556.7879"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2412"
+       id="linearGradient2440"
+       gradientUnits="userSpaceOnUse"
+       x1="473.04333"
+       y1="288.11496"
+       x2="250.70958"
+       y2="556.7879" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2412"
+       id="linearGradient2442"
+       gradientUnits="userSpaceOnUse"
+       x1="473.04333"
+       y1="288.11496"
+       x2="250.70958"
+       y2="556.7879" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2412"
+       id="linearGradient2444"
+       gradientUnits="userSpaceOnUse"
+       x1="473.04333"
+       y1="288.11496"
+       x2="250.70958"
+       y2="556.7879" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2493"
+       id="linearGradient2499"
+       x1="-15.751592"
+       y1="510.3132"
+       x2="751.3913"
+       y2="1124.5989"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="155.61095"
+     inkscape:cy="-210.36569"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="641"
+     inkscape:window-height="719"
+     inkscape:window-x="194"
+     inkscape:window-y="25" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-185.67698,-318.83375)">
+    <rect
+       style="opacity:1;fill:url(#linearGradient2499);stroke:#ffffff;stroke-width:0.99792099000000001;fill-opacity:1"
+       id="rect2489"
+       width="479.00208"
+       height="479.00208"
+       x="57.104515"
+       y="542.74066"
+       ry="52.90834"
+       inkscape:export-filename="/home/chrikle/Desktop/Projekte/laex/trunk/src/laex_small.png"
+       inkscape:export-xdpi="8.4096107"
+       inkscape:export-ydpi="8.4096107" />
+    <a
+       id="a2446"
+       inkscape:export-filename="/home/chrikle/Desktop/Projekte/laex/trunk/src/laex_small.png"
+       inkscape:export-xdpi="14.0631"
+       inkscape:export-ydpi="14.0631">
+      <path
+         id="rect2391"
+         d="M 267.09375,319.375 C 241.88234,319.13686 216.97197,327.75655 196.5625,342.375 C 188.91219,347.66168 183.39032,357.8105 187.65625,366.9375 C 193.58467,381.49788 206.61096,391.51605 213.75696,405.40317 C 225.98206,425.33878 246.31574,440.91273 269.80914,444.26557 C 281.83125,446.80537 292.38729,453.22119 302.96542,459.11988 C 313.7156,464.4995 325.9654,466.70121 337.87597,464.93628 C 363.92752,463.77113 389.95682,461.71549 416.03125,461.375 C 435.0955,459.1067 452.33032,448.04924 463.78064,432.85268 C 478.24618,416.4424 490.94607,397.57421 496.36756,376.15626 C 497.28701,361.57591 485.60421,349.72587 473.14553,344.11614 C 453.53369,332.82399 432.03717,321.14547 408.65625,322.71875 C 389.55585,323.39669 371.38279,331.50078 352.12499,330.13281 C 333.03014,329.89769 314.72036,324.01628 296,321.125 C 286.42814,319.70625 276.76531,319.15112 267.09375,319.375 z"
+         style="fill:url(#linearGradient2399);fill-opacity:1;stroke:#333333;stroke-width:0.98647767" />
+    </a>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2383"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:url(#linearGradient2418);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       transform="matrix(1.1002623,-0.2556622,0.2352186,1.0122818,-111.09888,81.647928)"
+       inkscape:export-filename="/home/chrikle/Desktop/Projekte/laex/trunk/src/laex_small.png"
+       inkscape:export-xdpi="14.0631"
+       inkscape:export-ydpi="14.0631"><flowRegion
+         id="flowRegion2385"
+         style="fill:url(#linearGradient2442);fill-opacity:1"><rect
+           id="rect2387"
+           width="332.85715"
+           height="200"
+           x="234.28572"
+           y="336.64789"
+           style="fill:url(#linearGradient2440);fill-opacity:1" /></flowRegion><flowPara
+         id="flowPara2389"
+         style="font-size:72px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:url(#linearGradient2444);fill-opacity:1;font-family:LMMathSymbols10;-inkscape-font-specification:LMMathSymbols10 Bold Italic">LaEx</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:83.26235961999999802px;font-style:normal;font-weight:normal;opacity:0.73999999000000005;fill:#339900;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="-41.460381"
+       y="1007.2214"
+       id="text2463"
+       transform="matrix(0.9453685,-0.2327902,0.2192389,1.0038025,0,0)"
+       inkscape:transform-center-y="-126.08948"
+       inkscape:transform-center-x="97.645561"
+       inkscape:export-filename="/home/chrikle/Desktop/Projekte/laex/trunk/src/laex_small.png"
+       inkscape:export-xdpi="8.5582552"
+       inkscape:export-ydpi="8.5582552"><tspan
+         sodipodi:role="line"
+         id="tspan2465"
+         x="-41.460381"
+         y="1007.2214"
+         style="font-size:299.74447631999998976px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#339900;font-family:LMMathSymbols10;-inkscape-font-specification:LMMathSymbols10 Bold Italic">Ex</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:92.08161925999999653px;font-style:normal;font-weight:normal;fill:#0169c9;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="-121.90598"
+       y="820.69574"
+       id="text2459"
+       transform="matrix(0.9363832,-0.235024,0.2171551,1.0134349,0,0)"
+       inkscape:transform-center-y="-146.82246"
+       inkscape:transform-center-x="127.17851"
+       inkscape:export-filename="/home/chrikle/Desktop/Projekte/laex/trunk/src/laex_small.png"
+       inkscape:export-xdpi="8.4096107"
+       inkscape:export-ydpi="8.4096107"><tspan
+         sodipodi:role="line"
+         id="tspan2461"
+         x="-121.90598"
+         y="820.69574"
+         style="font-size:331.49383545000000595px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#0169c9;font-family:LMMathSymbols10;-inkscape-font-specification:LMMathSymbols10 Bold Italic">La</tspan></text>
+  </g>
+</svg>

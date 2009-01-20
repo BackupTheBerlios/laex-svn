@@ -56,6 +56,9 @@ void main_window_onbtnNewEntry(GtkWidget *widget, gpointer user_data)
     GtkEntry *entryGroup;
     GtkComboBox *comboboxPanel;
     GtkSpinButton *spinbuttonDays;
+    cENTRY *entry,*entry2;
+    char *S,*S2;
+    int i;
     g_print("... main_window_onbtnNewEntry\n");
     data = (cDATA*) user_data;
     dialog = GTK_WIDGET(gtk_builder_get_object (data->dialog_edit_entry_ui,"dialogEditEntry"));
@@ -70,13 +73,34 @@ void main_window_onbtnNewEntry(GtkWidget *widget, gpointer user_data)
     
     gtk_entry_set_text(entryTranslationlang1,"");
     gtk_entry_set_text(entryTranslationlang2,"");
-    gtk_entry_set_text(entryLanguageName1,"Deutsch");
-    gtk_entry_set_text(entryLanguageName2,"Englisch");
+    gtk_entry_set_text(entryLanguageName1,data->lang1name);
+    gtk_entry_set_text(entryLanguageName2,data->lang2name);
     gtk_entry_set_text(entryGroup,"");
     gtk_spin_button_set_value(spinbuttonDays,(gdouble)0);
+    gtk_combo_box_set_active(comboboxPanel,0);
+    
     if (gtk_dialog_run (GTK_DIALOG(dialog))==GTK_RESPONSE_OK)
       {
-            
+          entry=centry_new();
+          centry_set(entry, (char*)gtk_entry_get_text(entryLanguageName1),(char*)gtk_entry_get_text(entryLanguageName2),(char*)gtk_entry_get_text(entryTranslationlang1), (char*)gtk_entry_get_text(entryTranslationlang2), (char*)gtk_entry_get_text(entryGroup),gtk_combo_box_get_active(comboboxPanel),gtk_spin_button_get_value_as_int(spinbuttonDays));
+          S=(char*)malloc(strlen(entry->word1)+1);
+          UpperCase(S,entry->word1);
+          for (i=0;i!=(int)data->cwordlist->len;i++)
+           {
+             entry2 = g_array_index (data->cwordlist, cENTRY*, i);
+             S2 = (char*)malloc(strlen(entry2->word1)+1);
+             UpperCase(S2,entry2->word1);
+             if (strcmp(S,S2) < 0)
+               {
+                  g_array_insert_val(data->cwordlist,i,entry);
+                  free(S2);
+                  break;
+               }
+             free(S2);
+           } 
+          free(S);
+          main_window_Show_treeviewGroup(user_data);
+          main_window_onSearch(widget,user_data);
       }
     gtk_widget_hide(dialog);
 }

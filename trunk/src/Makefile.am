@@ -34,7 +34,10 @@ laex_SOURCES = \
 	statistics.h \
 	statistics.c \
 	word_practise.c \
-	word_practise.h
+	word_practise.h \
+	dialog_messages.h \
+	dialog_messages.c \
+	options.h
 
 laex_LDFLAGS = \
 	-Wl,--export-dynamic

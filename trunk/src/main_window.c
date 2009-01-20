@@ -6,6 +6,7 @@
 #include "dialog_edit_entry.h"
 #include "data.h"
 #include <string.h>
+#include "options.h"
 
 void main_window_init()
 {
@@ -56,10 +57,10 @@ void main_window_run(gpointer user_data)
  GtkWindow *main_window;
  data = (cDATA*) user_data;
  data->main_window_ui = gtk_builder_new ();
- gtk_builder_add_from_file(data->main_window_ui,"main_window.ui",NULL);
+ gtk_builder_add_from_file(data->main_window_ui,UI_PATH"main_window.ui",NULL);
  main_window = GTK_WINDOW(gtk_builder_get_object (data->main_window_ui,"main_window"));
  gtk_notebook_set_show_tabs (GTK_NOTEBOOK(gtk_builder_get_object (data->main_window_ui,"notebookmain")),FALSE);
- 
+  gtk_window_set_icon_from_file(main_window,ICON_PATH"laex_small.png",NULL);
  gtk_widget_show (GTK_WIDGET(main_window));
  main_window_onConnect(GTK_WIDGET(main_window),user_data);
  main_window_init_translationTreeView(user_data);
@@ -68,14 +69,14 @@ void main_window_run(gpointer user_data)
  
  // dialog_edit_entry:
  data->dialog_edit_entry_ui = gtk_builder_new ();
- gtk_builder_add_from_file(data->dialog_edit_entry_ui,"dialogEditEntry.ui",NULL);
+ gtk_builder_add_from_file(data->dialog_edit_entry_ui,UI_PATH"dialogEditEntry.ui",NULL);
 
  main_window_init_comboboxPanel(data);
  main_window_init_treeviewSelectWords(data);
  
  // dialog_start_Training:
   data->dialog_start_training_ui = gtk_builder_new ();
-  gtk_builder_add_from_file(data->dialog_start_training_ui,"dialogStartTraining.ui",NULL);
+  gtk_builder_add_from_file(data->dialog_start_training_ui,UI_PATH"dialogStartTraining.ui",NULL);
 
 }
 
@@ -562,17 +563,44 @@ void main_window_ontoolbuttonPreferences(GtkWidget *widget, gpointer user_data)
 void main_window_ontoolbuttonHelp(GtkWidget *widget, gpointer user_data)
 {
     g_print("... main_window_ontoolbuttonHelp\n");
-}
+}
+
+#if GTK_CHECK_VERSION(2,14,0)
+void open_link (GtkAboutDialog *dialog,
+           const gchar    *link,
+           gpointer        data)
+{
+  gtk_show_uri (NULL,link,GDK_CURRENT_TIME,NULL);
+}
+#endif// GTK_CHECK_VERSION(2,14,0)
 void main_window_ontoolbuttonabout(GtkWidget *widget, gpointer user_data)
 {
     cDATA *data;
     g_print("... main_window_ontoolbuttonabout\n");
     data = (cDATA*) user_data;
+    GdkPixbuf * pix;
+    const gchar *authors[] = {"Christian Klein <chrikle@berlios.de>",NULL};
+    const gchar *documentors[] = {"Christian Klein <chrikle@berlios.de>",NULL};
+    const gchar *license = _("This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.");
+    
+    pix=gdk_pixbuf_new_from_file(ICON_PATH"laex.png",NULL);
+    #if GTK_CHECK_VERSION(2,14,0)
+       gtk_about_dialog_set_email_hook (open_link, NULL, NULL);
+       gtk_about_dialog_set_url_hook (open_link, NULL, NULL);
+    #endif //GTK_CHECK_VERSION(2,14,0)
     gtk_show_about_dialog (GTK_WINDOW(gtk_builder_get_object (data->main_window_ui,"main_window")),
                        "program-name", "Language Explorer",
                        "title", _("About Language Explorer"),
-                       "version","0.1",
+                       "comments",_("The application is a smart combination of a dictionary\nand a vocabulary trainer!"), 
+                       "version",laex_Version,
                        "website","http://laex.berlios.de/",
+                       "website-label","http://laex.berlios.de/",
                        "copyright","Copyright © 2009 Christian Klein",
+                       "logo",pix,
+                       "authors",authors,
+                       "documenters",documentors,
+                       "license",license,
+                       "wrap-license",(gboolean)TRUE,
                        NULL);
+    g_object_unref(G_OBJECT(pix));
 }

@@ -49,7 +49,7 @@ am_laex_OBJECTS = main.$(OBJEXT) main_window.$(OBJEXT) \
 	centry.$(OBJEXT) cstrman.$(OBJEXT) data.$(OBJEXT) \
 	word_preview.$(OBJEXT) select_words.$(OBJEXT) \
 	dialog_edit_entry.$(OBJEXT) statistics.$(OBJEXT) \
-	word_practise.$(OBJEXT)
+	word_practise.$(OBJEXT) dialog_messages.$(OBJEXT)
 laex_OBJECTS = $(am_laex_OBJECTS)
 am__DEPENDENCIES_1 =
 laex_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -73,13 +73,13 @@ DIST_SOURCES = $(laex_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/chrikle/projects/test/laex/trunk/missing --run aclocal-1.10
+ACLOCAL = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run aclocal-1.10
 ALL_LINGUAS = 
-AMTAR = ${SHELL} /home/chrikle/projects/test/laex/trunk/missing --run tar
+AMTAR = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /home/chrikle/projects/test/laex/trunk/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/chrikle/projects/test/laex/trunk/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/chrikle/projects/test/laex/trunk/missing --run automake-1.10
+AUTOCONF = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run automake-1.10
 AWK = gawk
 CATALOGS = 
 CATOBJEXT = .gmo
@@ -88,18 +88,23 @@ CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPP = gcc -E
 CPPFLAGS = 
+CXX = g++
+CXXCPP = g++ -E
+CXXDEPMODE = depmode=gcc3
+CXXFLAGS = -g -O2
 CYGPATH_W = echo
 DATADIRNAME = share
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DSYMUTIL = 
-DUMPBIN = 
+ECHO = echo
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
 EXEEXT = 
-FGREP = /bin/grep -F
+F77 = gfortran
+FFLAGS = -g -O2
 GETTEXT_PACKAGE = laex
 GMOFILES = 
 GMSGFMT = /usr/bin/msgfmt
@@ -114,10 +119,10 @@ INTLLIBS =
 INTLTOOL_CAVES_RULE = %.caves:     %.caves.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_DESKTOP_RULE = %.desktop:   %.desktop.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_DIRECTORY_RULE = %.directory: %.directory.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
-INTLTOOL_EXTRACT = /usr/bin/intltool-extract
+INTLTOOL_EXTRACT = $(top_builddir)/intltool-extract
 INTLTOOL_KBD_RULE = %.kbd:       %.kbd.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -m -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_KEYS_RULE = %.keys:      %.keys.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -k -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
-INTLTOOL_MERGE = /usr/bin/intltool-merge
+INTLTOOL_MERGE = $(top_builddir)/intltool-merge
 INTLTOOL_OAF_RULE = %.oaf:       %.oaf.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -o -p $(top_srcdir)/po $< $@
 INTLTOOL_PERL = /usr/bin/perl
 INTLTOOL_POLICY_RULE = %.policy:    %.policy.in    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
@@ -130,32 +135,27 @@ INTLTOOL_SHEET_RULE = %.sheet:     %.sheet.in     $(INTLTOOL_MERGE) $(wildcard $
 INTLTOOL_SOUNDLIST_RULE = %.soundlist: %.soundlist.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_THEME_RULE = %.theme:     %.theme.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_UI_RULE = %.ui:        %.ui.in        $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
-INTLTOOL_UPDATE = /usr/bin/intltool-update
+INTLTOOL_UPDATE = $(top_builddir)/intltool-update
 INTLTOOL_XAM_RULE = %.xam:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_XML_NOMERGE_RULE = %.xml:       %.xml.in       $(INTLTOOL_MERGE) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u /tmp $< $@
 INTLTOOL_XML_RULE = %.xml:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
-LAEX_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12 -I/usr/include/libxml2  
-LAEX_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lgio-2.0 -lcairo -lpango-1.0 -lfreetype -lz -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -lxml2  
-LD = /usr/bin/ld
+LAEX_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12 -I/usr/include/pixman-1 -I/usr/include/libxml2  
+LAEX_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lxml2  
 LDFLAGS = 
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
-LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
-MAINT = #
-MAKEINFO = ${SHELL} /home/chrikle/projects/test/laex/trunk/missing --run makeinfo
+MAINT = 
+MAKEINFO = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 MKINSTALLDIRS = ./mkinstalldirs
 MSGFMT = /usr/bin/msgfmt
 MSGFMT_OPTS = -c
 MSGMERGE = /usr/bin/msgmerge
-NM = /usr/bin/nm -B
 NMEDIT = 
 OBJEXT = o
-OTOOL = 
-OTOOL64 = 
 PACKAGE = laex
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = laex
@@ -176,12 +176,13 @@ STRIP = strip
 USE_NLS = yes
 VERSION = 0.1
 XGETTEXT = /usr/bin/xgettext
-abs_builddir = /home/chrikle/projects/test/laex/trunk/src
-abs_srcdir = /home/chrikle/projects/test/laex/trunk/src
-abs_top_builddir = /home/chrikle/projects/test/laex/trunk
-abs_top_srcdir = /home/chrikle/projects/test/laex/trunk
+abs_builddir = /home/chrikle/projects/laex/trunk/src
+abs_srcdir = /home/chrikle/projects/laex/trunk/src
+abs_top_builddir = /home/chrikle/projects/laex/trunk
+abs_top_srcdir = /home/chrikle/projects/laex/trunk
 ac_ct_CC = gcc
-ac_ct_DUMPBIN = 
+ac_ct_CXX = g++
+ac_ct_F77 = gfortran
 am__include = include
 am__leading_dot = .
 am__quote = 
@@ -207,12 +208,11 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /home/chrikle/projects/test/laex/trunk/install-sh
+install_sh = $(SHELL) /home/chrikle/projects/laex/trunk/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
 localstatedir = ${prefix}/var
-lt_ECHO = echo
 mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
@@ -256,7 +256,10 @@ laex_SOURCES = \
 	statistics.h \
 	statistics.c \
 	word_practise.c \
-	word_practise.h
+	word_practise.h \
+	dialog_messages.h \
+	dialog_messages.c \
+	options.h
 
 laex_LDFLAGS = \
 	-Wl,--export-dynamic
@@ -266,7 +269,7 @@ all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .lo .o .obj
-$(srcdir)/Makefile.in: # $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -291,9 +294,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 
-$(top_srcdir)/configure: # $(am__configure_deps)
+$(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-$(ACLOCAL_M4): # $(am__aclocal_m4_deps)
+$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
@@ -337,6 +340,7 @@ include ./$(DEPDIR)/centry.Po
 include ./$(DEPDIR)/cstrman.Po
 include ./$(DEPDIR)/data.Po
 include ./$(DEPDIR)/dialog_edit_entry.Po
+include ./$(DEPDIR)/dialog_messages.Po
 include ./$(DEPDIR)/main.Po
 include ./$(DEPDIR)/main_window.Po
 include ./$(DEPDIR)/select_words.Po
