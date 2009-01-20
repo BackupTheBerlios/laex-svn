@@ -15,7 +15,7 @@
 
 #define gtk_Version_2_12
 #define laex_Version "0.1"
-#define ICON_PATH ""
+#define ICON_PATH "icons/"
 #define UI_PATH ""
 
 #endif //_OPTIONS_H

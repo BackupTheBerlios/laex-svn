@@ -12,7 +12,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-
+void dialog_message (gchar *message);
 
 
 #endif /* DIALOG_MESSAGES_H */
