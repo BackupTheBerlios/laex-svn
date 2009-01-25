@@ -62,15 +62,19 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(laex_pixmaps_filedir)" \
+am__installdirs = "$(DESTDIR)$(gnomemenudir)" \
+	"$(DESTDIR)$(laex_pixmaps_filedir)" \
 	"$(DESTDIR)$(laex_ui_filedir)" "$(DESTDIR)$(laexdocdir)" \
-	"$(DESTDIR)$(laexdochtmldir)"
+	"$(DESTDIR)$(laexdochtmldir)" "$(DESTDIR)$(menu_icondir)"
+gnomemenuDATA_INSTALL = $(INSTALL_DATA)
 laex_pixmaps_fileDATA_INSTALL = $(INSTALL_DATA)
 laex_ui_fileDATA_INSTALL = $(INSTALL_DATA)
 laexdocDATA_INSTALL = $(INSTALL_DATA)
 laexdochtmlDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(laex_pixmaps_file_DATA) $(laex_ui_file_DATA) $(laexdoc_DATA) \
-	$(laexdochtml_DATA)
+menu_iconDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(gnomemenu_DATA) $(laex_pixmaps_file_DATA) \
+	$(laex_ui_file_DATA) $(laexdoc_DATA) $(laexdochtml_DATA) \
+	$(menu_icon_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 ETAGS = etags
@@ -264,7 +268,15 @@ laex_pixmaps_file_DATA = src/icons/laex.png \
                          src/icons/laex_small.png \
                          src/icons/laex.svg
 
-EXTRA_DIST = $(laexdoc_DATA) $(laexdochtml_DATA) $(laex_ui_file_DATA) $(laex_pixmaps_file_DATA)
+gnomemenudir = $(datadir)/applications
+gnomemenu_DATA = laex.desktop
+menu_icon_DATA = \
+	src/icons/laex.png
+
+menu_icondir = \
+	$(datadir)/pixmaps
+
+EXTRA_DIST = $(laexdoc_DATA) $(laexdochtml_DATA) $(laex_ui_file_DATA) $(laex_pixmaps_file_DATA) $(gnomemenu_DATA)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -328,6 +340,23 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool
+install-gnomemenuDATA: $(gnomemenu_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(gnomemenudir)" || $(MKDIR_P) "$(DESTDIR)$(gnomemenudir)"
+	@list='$(gnomemenu_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(gnomemenuDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(gnomemenudir)/$$f'"; \
+	  $(gnomemenuDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(gnomemenudir)/$$f"; \
+	done
+
+uninstall-gnomemenuDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(gnomemenu_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(gnomemenudir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(gnomemenudir)/$$f"; \
+	done
 install-laex_pixmaps_fileDATA: $(laex_pixmaps_file_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(laex_pixmaps_filedir)" || $(MKDIR_P) "$(DESTDIR)$(laex_pixmaps_filedir)"
@@ -395,6 +424,23 @@ uninstall-laexdochtmlDATA:
 	  f=$(am__strip_dir) \
 	  echo " rm -f '$(DESTDIR)$(laexdochtmldir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(laexdochtmldir)/$$f"; \
+	done
+install-menu_iconDATA: $(menu_icon_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(menu_icondir)" || $(MKDIR_P) "$(DESTDIR)$(menu_icondir)"
+	@list='$(menu_icon_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(menu_iconDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(menu_icondir)/$$f'"; \
+	  $(menu_iconDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(menu_icondir)/$$f"; \
+	done
+
+uninstall-menu_iconDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(menu_icon_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(menu_icondir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(menu_icondir)/$$f"; \
 	done
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -683,7 +729,7 @@ check: check-recursive
 all-am: Makefile $(DATA) config.h
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(laex_pixmaps_filedir)" "$(DESTDIR)$(laex_ui_filedir)" "$(DESTDIR)$(laexdocdir)" "$(DESTDIR)$(laexdochtmldir)"; do \
+	for dir in "$(DESTDIR)$(gnomemenudir)" "$(DESTDIR)$(laex_pixmaps_filedir)" "$(DESTDIR)$(laex_ui_filedir)" "$(DESTDIR)$(laexdocdir)" "$(DESTDIR)$(laexdochtmldir)" "$(DESTDIR)$(menu_icondir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-recursive
@@ -730,9 +776,9 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-laex_pixmaps_fileDATA \
+install-data-am: install-gnomemenuDATA install-laex_pixmaps_fileDATA \
 	install-laex_ui_fileDATA install-laexdocDATA \
-	install-laexdochtmlDATA
+	install-laexdochtmlDATA install-menu_iconDATA
 
 install-dvi: install-dvi-recursive
 
@@ -768,9 +814,9 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-laex_pixmaps_fileDATA \
+uninstall-am: uninstall-gnomemenuDATA uninstall-laex_pixmaps_fileDATA \
 	uninstall-laex_ui_fileDATA uninstall-laexdocDATA \
-	uninstall-laexdochtmlDATA
+	uninstall-laexdochtmlDATA uninstall-menu_iconDATA
 
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) install-am \
 	install-strip
@@ -783,17 +829,19 @@ uninstall-am: uninstall-laex_pixmaps_fileDATA \
 	distclean-libtool distclean-tags distcleancheck distdir \
 	distuninstallcheck dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
-	install-laex_pixmaps_fileDATA install-laex_ui_fileDATA \
-	install-laexdocDATA install-laexdochtmlDATA install-man \
+	install-dvi-am install-exec install-exec-am \
+	install-gnomemenuDATA install-html install-html-am \
+	install-info install-info-am install-laex_pixmaps_fileDATA \
+	install-laex_ui_fileDATA install-laexdocDATA \
+	install-laexdochtmlDATA install-man install-menu_iconDATA \
 	install-pdf install-pdf-am install-ps install-ps-am \
 	install-strip installcheck installcheck-am installdirs \
 	installdirs-am maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-generic mostlyclean-libtool pdf pdf-am \
 	ps ps-am tags tags-recursive uninstall uninstall-am \
-	uninstall-laex_pixmaps_fileDATA uninstall-laex_ui_fileDATA \
-	uninstall-laexdocDATA uninstall-laexdochtmlDATA
+	uninstall-gnomemenuDATA uninstall-laex_pixmaps_fileDATA \
+	uninstall-laex_ui_fileDATA uninstall-laexdocDATA \
+	uninstall-laexdochtmlDATA uninstall-menu_iconDATA
 
 
 # Copy all the spec files. Of cource, only one is actually used.

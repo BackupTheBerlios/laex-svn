@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=LaEx
+Comment=Laex is smart combination of a dictionary and a vocabulary trainer
+Exec=laex
+Icon=laex
+Categories=Application;Education;GNOME;GTK;
+Terminal=false
+MultipleArgs=false
+Type=Application
+StartupNotify=true

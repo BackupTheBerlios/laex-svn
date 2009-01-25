@@ -438,7 +438,7 @@ configure:14784: $? = 0
 configure:14799: $PKG_CONFIG --exists --print-errors "gtk+-2.0 >= 2.12"
 configure:14802: $? = 0
 configure:14878: result: yes
-configure:15026: creating ./config.status
+configure:15025: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##

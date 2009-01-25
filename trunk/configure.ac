@@ -32,7 +32,6 @@ AM_PROG_LIBTOOL
 PKG_CHECK_MODULES(LAEX, [gtk+-2.0 >= 2.12])
 
 
-
 AC_OUTPUT([
 Makefile
 src/Makefile

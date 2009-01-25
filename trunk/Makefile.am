@@ -27,8 +27,16 @@ laex_pixmaps_file_DATA = src/icons/laex.png \
                          src/icons/laex_small.png \
                          src/icons/laex.svg
                     
+gnomemenudir = $(datadir)/applications
+gnomemenu_DATA = laex.desktop
 
-EXTRA_DIST = $(laexdoc_DATA) $(laexdochtml_DATA) $(laex_ui_file_DATA) $(laex_pixmaps_file_DATA)
+menu_icon_DATA = \
+	src/icons/laex.png
+
+menu_icondir = \
+	$(datadir)/pixmaps
+
+EXTRA_DIST = $(laexdoc_DATA) $(laexdochtml_DATA) $(laex_ui_file_DATA) $(laex_pixmaps_file_DATA) $(gnomemenu_DATA)
 
 # Copy all the spec files. Of cource, only one is actually used.
 dist-hook:
