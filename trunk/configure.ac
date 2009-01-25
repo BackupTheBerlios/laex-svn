@@ -1,7 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
-dnl Created by Anjuta application wizard.
 
-AC_INIT(laex, 0.1)
+AC_INIT(laex, 0.8)
 
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AC_CONFIG_HEADERS([config.h])
@@ -30,8 +29,7 @@ AM_PROG_LIBTOOL
 
 
 
-PKG_CHECK_MODULES(LAEX, [gtk+-2.0 >= 2.12 libxml-2.0 >= 2.6])
-
+PKG_CHECK_MODULES(LAEX, [gtk+-2.0 >= 2.12])
 
 
 

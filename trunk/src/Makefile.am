@@ -1,18 +1,19 @@
 ## Process this file with automake to produce Makefile.in
 
-## Created by Anjuta
 
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
+	-DPACKAGE_PREFIX_DIR=\""$(prefix)"\" \
 	$(LAEX_CFLAGS)
 
 AM_CFLAGS =\
 	 -Wall\
-	 -g
-
+	 -g\
+	 -O3
+	 
 bin_PROGRAMS = laex
 
 laex_SOURCES = \
@@ -37,7 +38,8 @@ laex_SOURCES = \
 	word_practise.h \
 	dialog_messages.h \
 	dialog_messages.c \
-	options.h
+	assistant_import.h \
+	assistant_import.c
 
 laex_LDFLAGS = \
 	-Wl,--export-dynamic

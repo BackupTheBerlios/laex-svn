@@ -12,6 +12,7 @@
 #include "dialog_edit_entry.h"
 #include "main_window.h"
 #include <string.h>
+#include "dialog_messages.h"
 
 void main_window_init_comboboxPanel(gpointer user_data)
 {
@@ -194,35 +195,20 @@ void main_window_onbtnEditEntry(GtkWidget *widget, gpointer user_data)
 
 void main_window_onbtnDeleteEntry(GtkWidget *widget, gpointer user_data)
 {
-    GtkWidget *dialog, *label, *content_area,*alig;
     GtkTreeSelection* sel;
     GtkTreeModel *model;
     GtkTreeIter iter;
     cENTRY *entry,*entry2;
     cDATA *data;
     int i;
+    gint result;
     g_print("... main_window_onbtnDeleteEntry\n");
     data = (cDATA*) user_data;
     sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"translationTreeView")));
     model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"translationTreeView")));
     if (!gtk_tree_selection_get_selected (sel, &model, &iter)) return;
     gtk_tree_model_get (model, &iter, 2, &entry, -1);
-    dialog = gtk_dialog_new_with_buttons (_("Question!"),
-                                         GTK_WINDOW(gtk_builder_get_object (data->main_window_ui,"main_window")),
-                                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                                         GTK_STOCK_YES,
-                                         GTK_RESPONSE_YES,
-                                         GTK_STOCK_NO,
-                                         GTK_RESPONSE_NO,
-                                         NULL);
-   content_area = GTK_WIDGET(GTK_DIALOG(dialog)->vbox);//gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-   label = gtk_label_new (_("Are you really sure that you want to delete this entry?"));
-   alig = gtk_alignment_new(0.5,0.5,0.5,0.5);
-   gtk_alignment_set_padding ( GTK_ALIGNMENT(alig),48,48,24,24);
-   gtk_container_add (GTK_CONTAINER (content_area), alig);
-   gtk_container_add (GTK_CONTAINER (alig), label);
-   gtk_widget_show_all (dialog);
-   gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+   result = dialog_question(_("Are you really sure that you want to delete this entry?"));
    if (result==GTK_RESPONSE_YES)
      {
         for (i=0;i!=(int)data->cwordlist->len;i++)
@@ -238,5 +224,4 @@ void main_window_onbtnDeleteEntry(GtkWidget *widget, gpointer user_data)
         main_window_Show_treeviewGroup(user_data);
         main_window_onSearch(widget,user_data);
      }
-  gtk_widget_destroy (dialog);
 }

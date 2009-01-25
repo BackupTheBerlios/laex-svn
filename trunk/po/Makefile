@@ -19,7 +19,7 @@
 
 GETTEXT_PACKAGE = laex
 PACKAGE = laex
-VERSION = 0.1
+VERSION = 0.8
 
 SHELL = /bin/sh
 
@@ -36,7 +36,7 @@ libdir = ${exec_prefix}/lib
 DATADIRNAME = share
 itlocaledir = $(prefix)/$(DATADIRNAME)/locale
 subdir = po
-install_sh = $(SHELL) /home/chrikle/projects/test/laex/trunk/install-sh
+install_sh = $(SHELL) /home/chrikle/projects/entwicklung/laex/trunk/install-sh
 # Automake >= 1.8 provides /bin/mkdir -p.
 # Until it can be supposed, use the safe fallback:
 mkdir_p = $(install_sh) -d

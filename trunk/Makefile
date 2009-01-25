@@ -62,9 +62,15 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(laexdocdir)"
+am__installdirs = "$(DESTDIR)$(laex_pixmaps_filedir)" \
+	"$(DESTDIR)$(laex_ui_filedir)" "$(DESTDIR)$(laexdocdir)" \
+	"$(DESTDIR)$(laexdochtmldir)"
+laex_pixmaps_fileDATA_INSTALL = $(INSTALL_DATA)
+laex_ui_fileDATA_INSTALL = $(INSTALL_DATA)
 laexdocDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(laexdoc_DATA)
+laexdochtmlDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(laex_pixmaps_file_DATA) $(laex_ui_file_DATA) $(laexdoc_DATA) \
+	$(laexdochtml_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 ETAGS = etags
@@ -81,13 +87,13 @@ DIST_ARCHIVES = $(distdir).tar.gz
 GZIP_ENV = --best
 distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run aclocal-1.10
+ACLOCAL = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run aclocal-1.10
 ALL_LINGUAS = 
-AMTAR = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run tar
+AMTAR = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run automake-1.10
+AUTOCONF = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run automake-1.10
 AWK = gawk
 CATALOGS = 
 CATOBJEXT = .gmo
@@ -96,23 +102,18 @@ CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPP = gcc -E
 CPPFLAGS = 
-CXX = g++
-CXXCPP = g++ -E
-CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2
 CYGPATH_W = echo
 DATADIRNAME = share
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DSYMUTIL = 
-ECHO = echo
+DUMPBIN = 
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
 EXEEXT = 
-F77 = gfortran
-FFLAGS = -g -O2
+FGREP = /bin/grep -F
 GETTEXT_PACKAGE = laex
 GMOFILES = 
 GMSGFMT = /usr/bin/msgfmt
@@ -127,10 +128,10 @@ INTLLIBS =
 INTLTOOL_CAVES_RULE = %.caves:     %.caves.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_DESKTOP_RULE = %.desktop:   %.desktop.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_DIRECTORY_RULE = %.directory: %.directory.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
-INTLTOOL_EXTRACT = $(top_builddir)/intltool-extract
+INTLTOOL_EXTRACT = /usr/bin/intltool-extract
 INTLTOOL_KBD_RULE = %.kbd:       %.kbd.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -m -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_KEYS_RULE = %.keys:      %.keys.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -k -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
-INTLTOOL_MERGE = $(top_builddir)/intltool-merge
+INTLTOOL_MERGE = /usr/bin/intltool-merge
 INTLTOOL_OAF_RULE = %.oaf:       %.oaf.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -o -p $(top_srcdir)/po $< $@
 INTLTOOL_PERL = /usr/bin/perl
 INTLTOOL_POLICY_RULE = %.policy:    %.policy.in    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
@@ -143,33 +144,38 @@ INTLTOOL_SHEET_RULE = %.sheet:     %.sheet.in     $(INTLTOOL_MERGE) $(wildcard $
 INTLTOOL_SOUNDLIST_RULE = %.soundlist: %.soundlist.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_THEME_RULE = %.theme:     %.theme.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_UI_RULE = %.ui:        %.ui.in        $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
-INTLTOOL_UPDATE = $(top_builddir)/intltool-update
+INTLTOOL_UPDATE = /usr/bin/intltool-update
 INTLTOOL_XAM_RULE = %.xam:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_XML_NOMERGE_RULE = %.xml:       %.xml.in       $(INTLTOOL_MERGE) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u /tmp $< $@
 INTLTOOL_XML_RULE = %.xml:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
-LAEX_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12 -I/usr/include/pixman-1 -I/usr/include/libxml2  
-LAEX_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lxml2  
+LAEX_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12  
+LAEX_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lgio-2.0 -lcairo -lpango-1.0 -lfreetype -lz -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lglib-2.0  
+LD = /usr/bin/ld
 LDFLAGS = 
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
+LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
 MAINT = 
-MAKEINFO = ${SHELL} /home/chrikle/projects/laex/trunk/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 MKINSTALLDIRS = ./mkinstalldirs
 MSGFMT = /usr/bin/msgfmt
 MSGFMT_OPTS = -c
 MSGMERGE = /usr/bin/msgmerge
+NM = /usr/bin/nm -B
 NMEDIT = 
 OBJEXT = o
+OTOOL = 
+OTOOL64 = 
 PACKAGE = laex
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = laex
-PACKAGE_STRING = laex 0.1
+PACKAGE_STRING = laex 0.8
 PACKAGE_TARNAME = laex
-PACKAGE_VERSION = 0.1
+PACKAGE_VERSION = 0.8
 PATH_SEPARATOR = :
 PKG_CONFIG = /usr/bin/pkg-config
 POFILES = 
@@ -182,15 +188,14 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = strip
 USE_NLS = yes
-VERSION = 0.1
+VERSION = 0.8
 XGETTEXT = /usr/bin/xgettext
-abs_builddir = /home/chrikle/projects/laex/trunk
-abs_srcdir = /home/chrikle/projects/laex/trunk
-abs_top_builddir = /home/chrikle/projects/laex/trunk
-abs_top_srcdir = /home/chrikle/projects/laex/trunk
+abs_builddir = /home/chrikle/projects/entwicklung/laex/trunk
+abs_srcdir = /home/chrikle/projects/entwicklung/laex/trunk
+abs_top_builddir = /home/chrikle/projects/entwicklung/laex/trunk
+abs_top_srcdir = /home/chrikle/projects/entwicklung/laex/trunk
 ac_ct_CC = gcc
-ac_ct_CXX = g++
-ac_ct_F77 = gfortran
+ac_ct_DUMPBIN = 
 am__include = include
 am__leading_dot = .
 am__quote = 
@@ -216,11 +221,12 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /home/chrikle/projects/laex/trunk/install-sh
+install_sh = $(SHELL) /home/chrikle/projects/entwicklung/laex/trunk/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
 localstatedir = ${prefix}/var
+lt_ECHO = echo
 mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
@@ -245,7 +251,20 @@ laexdoc_DATA = \
 	INSTALL\
 	NEWS
 
-EXTRA_DIST = $(laexdoc_DATA)
+laexdochtmldir = ${prefix}/doc/laex/html
+laexdochtml_DATA = src/doc/main.html
+laex_ui_filedir = "$(datadir)"/laex/ui
+laex_ui_file_DATA = src/ui/main_window.ui \
+                    src/ui/dialogEditEntry.ui \
+                    src/ui/assistant_import.ui \
+                    src/ui/dialogStartTraining.ui
+
+laex_pixmaps_filedir = "$(datadir)"/laex/pixmaps
+laex_pixmaps_file_DATA = src/icons/laex.png \
+                         src/icons/laex_small.png \
+                         src/icons/laex.svg
+
+EXTRA_DIST = $(laexdoc_DATA) $(laexdochtml_DATA) $(laex_ui_file_DATA) $(laex_pixmaps_file_DATA)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -309,6 +328,40 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool
+install-laex_pixmaps_fileDATA: $(laex_pixmaps_file_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(laex_pixmaps_filedir)" || $(MKDIR_P) "$(DESTDIR)$(laex_pixmaps_filedir)"
+	@list='$(laex_pixmaps_file_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(laex_pixmaps_fileDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(laex_pixmaps_filedir)/$$f'"; \
+	  $(laex_pixmaps_fileDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(laex_pixmaps_filedir)/$$f"; \
+	done
+
+uninstall-laex_pixmaps_fileDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(laex_pixmaps_file_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(laex_pixmaps_filedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(laex_pixmaps_filedir)/$$f"; \
+	done
+install-laex_ui_fileDATA: $(laex_ui_file_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(laex_ui_filedir)" || $(MKDIR_P) "$(DESTDIR)$(laex_ui_filedir)"
+	@list='$(laex_ui_file_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(laex_ui_fileDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(laex_ui_filedir)/$$f'"; \
+	  $(laex_ui_fileDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(laex_ui_filedir)/$$f"; \
+	done
+
+uninstall-laex_ui_fileDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(laex_ui_file_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(laex_ui_filedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(laex_ui_filedir)/$$f"; \
+	done
 install-laexdocDATA: $(laexdoc_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(laexdocdir)" || $(MKDIR_P) "$(DESTDIR)$(laexdocdir)"
@@ -325,6 +378,23 @@ uninstall-laexdocDATA:
 	  f=$(am__strip_dir) \
 	  echo " rm -f '$(DESTDIR)$(laexdocdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(laexdocdir)/$$f"; \
+	done
+install-laexdochtmlDATA: $(laexdochtml_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(laexdochtmldir)" || $(MKDIR_P) "$(DESTDIR)$(laexdochtmldir)"
+	@list='$(laexdochtml_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(laexdochtmlDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(laexdochtmldir)/$$f'"; \
+	  $(laexdochtmlDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(laexdochtmldir)/$$f"; \
+	done
+
+uninstall-laexdochtmlDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(laexdochtml_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(laexdochtmldir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(laexdochtmldir)/$$f"; \
 	done
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -613,7 +683,7 @@ check: check-recursive
 all-am: Makefile $(DATA) config.h
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(laexdocdir)"; do \
+	for dir in "$(DESTDIR)$(laex_pixmaps_filedir)" "$(DESTDIR)$(laex_ui_filedir)" "$(DESTDIR)$(laexdocdir)" "$(DESTDIR)$(laexdochtmldir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-recursive
@@ -660,7 +730,9 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-laexdocDATA
+install-data-am: install-laex_pixmaps_fileDATA \
+	install-laex_ui_fileDATA install-laexdocDATA \
+	install-laexdochtmlDATA
 
 install-dvi: install-dvi-recursive
 
@@ -696,7 +768,9 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-laexdocDATA
+uninstall-am: uninstall-laex_pixmaps_fileDATA \
+	uninstall-laex_ui_fileDATA uninstall-laexdocDATA \
+	uninstall-laexdochtmlDATA
 
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) install-am \
 	install-strip
@@ -711,12 +785,15 @@ uninstall-am: uninstall-laexdocDATA
 	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am \
-	install-laexdocDATA install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-recursive \
-	uninstall uninstall-am uninstall-laexdocDATA
+	install-laex_pixmaps_fileDATA install-laex_ui_fileDATA \
+	install-laexdocDATA install-laexdochtmlDATA install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-generic mostlyclean-libtool pdf pdf-am \
+	ps ps-am tags tags-recursive uninstall uninstall-am \
+	uninstall-laex_pixmaps_fileDATA uninstall-laex_ui_fileDATA \
+	uninstall-laexdocDATA uninstall-laexdochtmlDATA
 
 
 # Copy all the spec files. Of cource, only one is actually used.

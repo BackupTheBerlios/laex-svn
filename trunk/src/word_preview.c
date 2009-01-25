@@ -3,7 +3,7 @@
  *
  *  Tue Jan 13 14:57:24 2009
  *  Copyright  2009  chrikle
- *  <chrikle@<host>>
+ *  <chrikle@berlios.de>
  ****************************************************************************/
 
 #include "word_preview.h"

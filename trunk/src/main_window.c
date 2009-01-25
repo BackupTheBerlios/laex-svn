@@ -6,7 +6,8 @@
 #include "dialog_edit_entry.h"
 #include "data.h"
 #include <string.h>
-#include "options.h"
+#include "dialog_messages.h"
+#include "assistant_import.h"
 
 void main_window_init()
 {
@@ -26,6 +27,7 @@ void main_window_onConnect(GtkWidget *main_window, gpointer user_data)
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnEditEntry")),"clicked", G_CALLBACK(main_window_onbtnEditEntry),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnDeleteEntry")),"clicked", G_CALLBACK(main_window_onbtnDeleteEntry),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonTraining")),"clicked", G_CALLBACK(main_window_ontoolbuttonSelectWordsInit),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonImport")),"clicked", G_CALLBACK(main_window_ontoolbuttonImport),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonPreferences")),"clicked", G_CALLBACK(main_window_ontoolbuttonPreferences),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonHelp")),"clicked", G_CALLBACK(main_window_ontoolbuttonHelp),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonabout")),"clicked", G_CALLBACK(main_window_ontoolbuttonabout),user_data);
@@ -67,6 +69,8 @@ void main_window_run(gpointer user_data)
  main_window_init_treeviewGroup(user_data);
  main_window_init_comboboxSelectWords(user_data);
  
+ assistant_import_init(user_data);
+ 
  // dialog_edit_entry:
  data->dialog_edit_entry_ui = gtk_builder_new ();
  gtk_builder_add_from_file(data->dialog_edit_entry_ui,UI_PATH"dialogEditEntry.ui",NULL);
@@ -74,10 +78,18 @@ void main_window_run(gpointer user_data)
  main_window_init_comboboxPanel(data);
  main_window_init_treeviewSelectWords(data);
  
+ 
+ 
  // dialog_start_Training:
   data->dialog_start_training_ui = gtk_builder_new ();
   gtk_builder_add_from_file(data->dialog_start_training_ui,UI_PATH"dialogStartTraining.ui",NULL);
-
+  if (data->cwordlist->len==0)
+     {
+       dialog_message (_("In the dictionary are no words available!\nPlease visit the homepage of LaEx to download a ready dictionary,\nif you do not like to create a new one!"));
+     }
+     
+  gtk_about_dialog_set_email_hook (open_link, NULL, NULL);
+  gtk_about_dialog_set_url_hook (open_link, NULL, NULL);
 }
 
 void main_window_delete(gpointer user_data)
@@ -87,6 +99,7 @@ void main_window_delete(gpointer user_data)
     g_object_unref(G_OBJECT(data->main_window_ui));
     g_object_unref(G_OBJECT(data->dialog_edit_entry_ui));
     g_object_unref(G_OBJECT(data->dialog_start_training_ui));
+    assistant_import_delete(user_data);
     data->main_window_ui=NULL;
     data->dialog_edit_entry_ui=NULL;
 }
@@ -265,7 +278,7 @@ void main_window_onSearch (GtkWidget *widget, gpointer user_data)
       
   
     i2=0;
-    word2 = gtk_combo_box_get_active_text(GTK_COMBO_BOX(gtk_builder_get_object (data->main_window_ui, "comboboxentryWord")));
+    word2 = (char*)gtk_entry_get_text (GTK_ENTRY(gtk_builder_get_object (data->main_window_ui, "entryWord")));
     word = (char*)malloc(strlen(word2)+1);
     UpperCase(word,word2);    
     
@@ -555,6 +568,14 @@ void main_window_ontoolbuttonDictionary(GtkWidget *widget, gpointer user_data)
     gtk_notebook_set_current_page(GTK_NOTEBOOK(gtk_builder_get_object (data->main_window_ui,"notebookmain")),0);
 }
 
+void main_window_ontoolbuttonImport(GtkWidget *widget, gpointer user_data)
+{
+    cDATA *data;
+    g_print("... main_window_ontoolbuttonImport\n");
+    data = (cDATA*) user_data;
+    assistant_import_run(user_data);
+}
+
 void main_window_ontoolbuttonPreferences(GtkWidget *widget, gpointer user_data)
 {
     g_print("... main_window_ontoolbuttonPreferences\n");
@@ -563,16 +584,28 @@ void main_window_ontoolbuttonPreferences(GtkWidget *widget, gpointer user_data)
 void main_window_ontoolbuttonHelp(GtkWidget *widget, gpointer user_data)
 {
     g_print("... main_window_ontoolbuttonHelp\n");
+    open_link (NULL,"file://"DOCHTML_PATH"main.html", user_data);
+    //open_link (NULL,"ghelp:"DOCHTML_PATH"main.html", user_data);
+    //open_link (NULL,"ghelp:///usr/local/doc/laex/html/main.html",user_data);
 }
 
-#if GTK_CHECK_VERSION(2,14,0)
+
 void open_link (GtkAboutDialog *dialog,
            const gchar    *link,
            gpointer        data)
 {
+  #if GTK_CHECK_VERSION(2,14,0)
   gtk_show_uri (NULL,link,GDK_CURRENT_TIME,NULL);
+  #else // GTK_CHECK_VERSION(2,14,0)
+  char *S,*S2;
+  S = _("This function is only available, if your gtk Version is upper than or equal 2.14!\n\nUnable to open:");
+  S2 = (char*)malloc(stren(S)+strlen(link)+1);
+  sprintf(S2,"%s%s",S,link);
+  dialog_message (S2);
+  free(S2);
+  #endif// GTK_CHECK_VERSION(2,14,0)
 }
-#endif// GTK_CHECK_VERSION(2,14,0)
+
 void main_window_ontoolbuttonabout(GtkWidget *widget, gpointer user_data)
 {
     cDATA *data;
@@ -583,16 +616,12 @@ void main_window_ontoolbuttonabout(GtkWidget *widget, gpointer user_data)
     const gchar *documentors[] = {"Christian Klein <chrikle@berlios.de>",NULL};
     const gchar *license = _("This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.");
     
-    pix=gdk_pixbuf_new_from_file(ICON_PATH"laex.png",NULL);
-    #if GTK_CHECK_VERSION(2,14,0)
-       gtk_about_dialog_set_email_hook (open_link, NULL, NULL);
-       gtk_about_dialog_set_url_hook (open_link, NULL, NULL);
-    #endif //GTK_CHECK_VERSION(2,14,0)
+    pix=gdk_pixbuf_new_from_file(ICON_PATH"laex.png",NULL);    
     gtk_show_about_dialog (GTK_WINDOW(gtk_builder_get_object (data->main_window_ui,"main_window")),
                        "program-name", "Language Explorer",
                        "title", _("About Language Explorer"),
                        "comments",_("The application is a smart combination of a dictionary\nand a vocabulary trainer!"), 
-                       "version",laex_Version,
+                       "version",LAEX_VERSION,
                        "website","http://laex.berlios.de/",
                        "website-label","http://laex.berlios.de/",
                        "copyright","Copyright © 2009 Christian Klein",

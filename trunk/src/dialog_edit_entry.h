@@ -3,7 +3,7 @@
  *
  *  Tue Jan 13 15:42:23 2009
  *  Copyright  2009  chrikle
- *  <chrikle@<host>>
+ *  <chrikle@berlios.de>
  ****************************************************************************/
 
 #ifndef _DIALOG_EDIT_ENTRY_H

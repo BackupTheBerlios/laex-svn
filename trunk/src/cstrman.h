@@ -22,27 +22,6 @@ int GetStringColumn(char *dest,char *source,char *seperator,int column);
 // GetStringColumn(S,"520::200::234","::",2);
 // printf("Number %s",S); // Number 234
 
-
-// STRING - LIST - OPERATIONS ------------------------------------------
-
-typedef struct {int Count; char **strings;} cSTRINGLIST;
-
-void cInitStringList(cSTRINGLIST *list);
-// You should call it at the beginning (sets Count=0 and strings=NULL)
-void cAddString(cSTRINGLIST *list,char *str);
-// Add a string to the list
-void cChangeString(cSTRINGLIST *list,int Number,char *str);
-void cClearStringList(cSTRINGLIST *list);
-// Clear the List and frees the memory (you should call it before quit
-void cInsertStringFirst(cSTRINGLIST *list,char *str);
-// Insert a string at the beginning (strings[0]) of the list
-void cSwapStrings(cSTRINGLIST *list,int Number1, int Number2);
-// Swaps Number1 and Number2
-int cSearchString(cSTRINGLIST *list,char *str);
-// if str is in the list return value is number of array, -1 str is not in the list
-
-
-
 // -FILE - OPERATIONS ------------------------------------------------
 
 enum cendl { cwinendl=0,clinendl};
@@ -50,6 +29,13 @@ enum cendl { cwinendl=0,clinendl};
 char *cfgets (char *s, int count, FILE *stream);
 // same as fgets (without endl charakter)
 // for windows and linux txt files
+
+char *cfgets_mem(FILE *stream);
+// similar as fgets (without endl charakter)
+// for windows and linux txt files
+// result: string which must be freed with free(..)
+//         NULL if error
+
 int cfgeti (int *number,FILE *stream);
 int cfputs (const char *s, FILE *stream, int endl_win_or_lin);
 // same as fputs, but puts an endl charakter; //windows or linux

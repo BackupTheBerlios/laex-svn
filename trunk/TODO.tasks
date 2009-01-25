@@ -1,6 +1,30 @@
-<?xml version="1.0"?>
-<gtodo>
-  <category title="Pers&#xF6;nlich" place="0"/>
-  <category title="Gesch&#xE4;ftlich" place="1"/>
-  <category title="Nicht einsortiert" place="2"/>
-</gtodo>
+Für Version 1.0:
+
+Import Filter
+Einstellungen: Dialog erstellen
+Einstellungen: (Fenstergröße, ... ) werden am schluss gespeichert und am anfang geladen
+OK Dictionary: Ersetze Suchzeite durch gtkeditenty
+days zurücksetzen, falls keine Wörter dran sind
+OK Dialog, falls kein Wörterbuch vorhanden
+Dictionary: Neu, Edit, Delete unsensibel/sensibel
+Dicitonary: Möglichkeit Vokabeln zu kopieren, einzufügen
+cfgets: umschreiben, so dass es unabhängig von der Länge der Zeile funktioniert
+Dictionary: PopUp Menü
+Select Words: PopUp Menü
+Select Words: Ansicht erweitern: Spalte mit days, eventuell Fach
+Select Words: Zusätzliche List: alle Wörter
+Hilfedatei erstellen
+Icons malen (Training, Import, Dictionary ...)
+Tooltips für alle Elemente
+BUGS ...
+DEB Pakete
+MS Windows Port
+
+
+Für Version 2.0/3.0:
+Möglichkeit weitere Sprachen zu verwenden
+Dictionary: macht Vorschläge beim suchen: GtkEntryCompletion
+Dictionary: suche über Leo.org durchführen dafür gibt es eine glibbassierte lib (Name?)
+                Dabei: gruppierte Wörter werden automatisch zum Offline Wörterbuch hinzugefügt (erlaubt? Lizens?)
+Dictionary: Suchalgorithmus überarbeiten und verbessern: Suchergebnisse nach Priorität ordnen
+Training:   Statistic: Ergebnisse werden durch ein Diagramm dargestellt (Balken und Torten)

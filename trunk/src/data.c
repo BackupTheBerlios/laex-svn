@@ -1,7 +1,9 @@
 #include "data.h"
 #include "string.h"
 #include "cstrman.h"
-#include <libxml/tree.h>
+#include <sys/stat.h>
+
+//#include <libxml/tree.h>
 
 cDATA user_data;
 
@@ -9,7 +11,9 @@ cDATA* cdata_init()
 {
         cDATA* data;
         data = (cDATA*)malloc(sizeof(cDATA));
+        const gchar *homedir;
         data->dictfile=NULL;
+        data->configdir=NULL;
 	data->grouplist=NULL;
 	data->cwordlist=NULL;
         data->trainlist=NULL;
@@ -20,6 +24,7 @@ cDATA* cdata_init()
 	data->dialog_edit_entry_ui=NULL;
 	data->dialog_edit_entry_ui=NULL;
 	data->dialog_start_training_ui=NULL;
+	data->assistant_import_ui=NULL;
 	data->traindirection=FALSE;
 	data->lang1name="German";
 	data->lang2name="English";
@@ -29,51 +34,160 @@ cDATA* cdata_init()
 	data->paneldays[3]=7;
 	data->paneldays[4]=14;
 	
-        data->dictfile = (char*)malloc(strlen("de-en.txt"));
-        strcpy(data->dictfile,"de-en.txt");
+	// Load Dic File:
+	homedir = g_getenv ("HOME");
+        if (!homedir) 
+           {
+             homedir = g_get_home_dir ();
+           }
+        data->configdir= (char*)malloc(strlen("/.laex")+strlen(homedir)+1);      
+        sprintf(data->configdir,"%s/.laex",homedir);
+        g_mkdir_with_parents(data->configdir,S_IRUSR | S_IWUSR | S_IXUSR);
+	
+        data->dictfile = (char*)malloc(strlen("/dic.laex")+strlen(data->configdir)+1);
+        sprintf(data->dictfile,"%s/dic.laex",data->configdir);
         data->cwordlist = g_array_new(TRUE,FALSE,sizeof(cENTRY*));
         data->grouplist = g_array_new(TRUE,FALSE,sizeof(char*));
-        cdata_loaddicfile(data);
+        cdata_loaddicfile(data,data->dictfile,NULL,NULL,NULL,FALSE);
         return data;
 }
 
-void cdata_loaddicfile(cDATA *data)
-{
+
+void cdata_loaddicfile(cDATA *data,char *filename, char *_lang1, char *_lang2, char* _group, gboolean _append){
     FILE *f;
-    char S[2000], lang1[2000],lang2[2000],la1[2000],la2[2000],group[2000],panels[2000],dayss[2000];
+    char *S, *lang1,*lang2,*la1,*la2,*group,*panels,*dayss;
     cENTRY *entry;
     int i;
-    f = fopen("dic.laex","r");
-    //f = fopen(data->dictfile,"r");
+    
+    S=NULL;lang1=NULL;lang2=NULL;la1=NULL;la2=NULL;group=NULL;panels=NULL;dayss=NULL;
+    
+    if (_append==TRUE)
+      {
+        // -to do
+      } else
+      {
+        for (i=0;i!=(int)data->cwordlist->len;i++)
+          {
+             centry_delete(g_array_index (data->cwordlist, cENTRY*, i));
+          }
+        g_array_free(data->cwordlist,TRUE);
+        for (i=0;i!=(int)data->grouplist->len;i++)
+        {
+           free(g_array_index (data->grouplist, char*, i));
+        }
+        g_array_free(data->grouplist,TRUE);
+        data->cwordlist = g_array_new(TRUE,FALSE,sizeof(cENTRY*));
+        data->grouplist = g_array_new(TRUE,FALSE,sizeof(char*));
+      }
+    
+    f = fopen(filename,"r");
     if (f==NULL) return;
-    //cdata_addgrouptolist(data,"");
-    i=0;
     while (1)
     	{
-	       entry = centry_new();
-           cfgets(S, 2000, f);
-           if (feof(f) != 0) break;
-	       if (S[0]=='#') continue;i++;
-           if (GetStringColumn(lang1,S,"::",0)!=0) continue;DeleteSpaceBegEnd (lang1);
-	   if (GetStringColumn(lang2,S,"::",1)!=0) continue;DeleteSpaceBegEnd (lang2);
-	   if (GetStringColumn(la1,S,"::",2)!=0) {sprintf(la1,"German");};DeleteSpaceBegEnd (la1);
-	   if (GetStringColumn(la2,S,"::",3)!=0) {sprintf(la2,"English");};DeleteSpaceBegEnd (la2);
-	   if (GetStringColumn(group,S,"::",4)!=0) {sprintf(group,"");};DeleteSpaceBegEnd (group);
-	   if (GetStringColumn(panels,S,"::",5)!=0) {sprintf(panels,"0");};
-	   if (GetStringColumn(dayss,S,"::",6)!=0) {sprintf(dayss,"0");};
+	   entry = centry_new();
+           S=cfgets_mem(f); // read one line
+           if (feof(f) != 0) 
+                             { 
+                               if (S!=NULL) free(S);
+                               S=NULL;
+                               break;
+                             }
+           if (S==NULL)      {
+                               continue;
+                               break;
+                             }
+	   if (S[0]=='#')    {
+	                       free(S);
+                               S=NULL;
+	                       continue;
+	                     }
+           lang1 = (char*)malloc(strlen(S)+1);
+           lang2 = (char*)malloc(strlen(S)+1);
+           la1 = (char*)malloc(strlen(S)+1);
+           la2 = (char*)malloc(strlen(S)+1);
+           group = (char*)malloc(strlen(S)+1);
+           panels = (char*)malloc(strlen(S)+1);
+           dayss = (char*)malloc(strlen(S)+1);
+           if (GetStringColumn(lang1,S,"::",0)!=0) 
+                                   {
+                                     free(lang1);
+                                     lang1=NULL;
+                                     continue;
+                                   }
+           DeleteSpaceBegEnd (lang1);
+	   if (GetStringColumn(lang2,S,"::",1)!=0) 
+	                          {
+                                     free(lang2);
+                                     lang1=NULL;
+                                     continue;
+                                   }
+	   DeleteSpaceBegEnd (lang2);
+	   if (GetStringColumn(la1,S,"::",2)!=0) 
+	                           {
+	                              if (_lang1 == NULL)
+	                                {
+	                                   la1=(char*)realloc(la1,strlen(data->lang1name)+1);
+	                                   sprintf(la1,"%s",data->lang1name);
+	                                } else
+	                                {
+	                                   la1=(char*)realloc(la1,strlen(_lang1)+1);
+	                                   sprintf(la1,"%s",_lang1);
+	                                } 
+	                           };
+	   DeleteSpaceBegEnd (la1);
+	   if (GetStringColumn(la2,S,"::",3)!=0) 
+	                           {
+	                              if (_lang2 == NULL)
+	                                {
+	                                  la2=(char*)realloc(la2,strlen(data->lang2name)+1);
+	                                  sprintf(la2,"%s",data->lang2name);
+	                                } else
+	                                {
+	                                  la2=(char*)realloc(la2,strlen(_lang2)+1);
+	                                  sprintf(la2,"%s",_lang2);
+	                                } 
+	                           };
+	   DeleteSpaceBegEnd (la2);
+	   
+	   if (GetStringColumn(group,S,"::",4)!=0) 
+	                           {
+	                             if (_group == NULL)
+	                               {
+	                                 group=(char*)realloc(group,1);
+	                                 group[0]=0;
+	                               } else
+	                               {
+	                                 group=(char*)realloc(group,strlen(_group)+1);
+	                                 sprintf(group,"%s",_group); 
+	                               }
+	                           }
+	   DeleteSpaceBegEnd (group);
+	   if (GetStringColumn(panels,S,"::",5)!=0) 
+	                           {
+	                             panels=(char*)realloc(panels,strlen("0")+1);
+	                             strcpy(panels,"0");
+	                           };
+	   if (GetStringColumn(dayss,S,"::",6)!=0) 
+	                           {
+	                             dayss=(char*)realloc(dayss,strlen("0")+1);
+	                             strcpy(dayss,"0");
+	                           };
 	   centry_set(entry, la1,la2, lang1, lang2, group, atoi(panels),atoi(dayss));
-	   if (strstr(group,"0")!=0) g_print("Error in line %d\n",i);
+	   
 	   g_array_append_val(data->cwordlist,entry);
+	   free(S);free(lang1);free(lang2);free(la1);free(la2);free(group);free(panels);free(dayss);
+	   
         }
     fclose(f);
 }
+
 
 void cdata_savedicfile(cDATA *data)
 {
     FILE *f;
     cENTRY *entry;
     int i;
-    f = fopen("dic.laex","w");
+    f = fopen(data->dictfile,"w");
     if (f==NULL) return;
      
   for (i=0;i!=data->cwordlist->len;i++)
@@ -96,7 +210,16 @@ void cdata_delete(cDATA *data)
 {
     int i;
     cdata_savedicfile(data);
-    free(data->dictfile);
+    if (data->dictfile!=NULL)
+       {
+          free(data->dictfile);
+          data->dictfile=NULL;
+       }
+    if (data->configdir!=NULL)
+       {
+          free(data->configdir);
+          data->configdir=NULL;
+       }
     for (i=0;i!=(int)data->cwordlist->len;i++)
       {
           centry_delete(g_array_index (data->cwordlist, cENTRY*, i));
@@ -144,7 +267,7 @@ void cdata_addgrouptolist(cDATA *data,char *group)
     free(S);
 }
 
-void cdata_saveXMLWordList(cDATA *data, char *filename)
+/*void cdata_saveXMLWordList(cDATA *data, char *filename)
 {
   xmlDoc *doc;
   xmlNodePtr rootNode,entryNode;
@@ -175,4 +298,4 @@ void cdata_saveXMLWordList(cDATA *data, char *filename)
   
   xmlSaveFile (filename, doc);
   xmlFreeDoc (doc); 
-}
+}*/

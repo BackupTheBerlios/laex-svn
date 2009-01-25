@@ -13,6 +13,6 @@
 #include <gtk/gtk.h>
 
 void dialog_message (gchar *message);
-
+gint dialog_question(gchar *message);
 
 #endif /* DIALOG_MESSAGES_H */

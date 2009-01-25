@@ -77,78 +77,7 @@ int GetStringColumn(char *dest,char *source,char *seperator,int column)
   return 0;
 }
 
-void cInitStringList(cSTRINGLIST *list)
-{
-list->Count=0;
-list->strings=NULL;
-}
 
-void cAddString(cSTRINGLIST *list,char *str)
-{
-  list->Count++;
-  list->strings=(char **)realloc ((char *)(list->strings), list->Count*sizeof(char *));
-  list->strings[list->Count-1]=(char *)malloc(strlen(str)+1);
-  strcpy(list->strings[list->Count-1],str);
-}
-
-void cChangeString(cSTRINGLIST *list,int Number,char *str)
-{
-  free(list->strings[Number]);
-  list->strings[Number]=(char*)malloc(strlen(str)+1);
-  strcpy(list->strings[Number],str);
-}
-
-void cClearStringList(cSTRINGLIST *list)
-{
-  if (list->Count==0) return;
-  int i;
-  for (i=0;i!=list->Count;i++)
-  	{
-	  free(list->strings[i]);
-	}
-  free(list->strings);
-  list->strings=NULL;
-  list->Count=0;	
-}
-
-void cInsertStringFirst(cSTRINGLIST *list,char *str)
-{
-  cAddString(list,str);
-  if (list->Count==1) return;
-  char *S=list->strings[list->Count-1];
-  int i;
-  for (i=list->Count-1;i!=0;i--)
-  	{
-	  list->strings[i]=list->strings[i-1];
-	}
-  list->strings[0]=S;
-}
-
-void cSwapStrings(cSTRINGLIST *list,int Number1, int Number2)
-{
-  if ((Number1 < 0) || (Number1 >= list->Count)) return; 
-  if ((Number2 < 0) || (Number2 >= list->Count)) return;
-  char *S;
-  S=list->strings[Number1];
-  list->strings[Number1]=list->strings[Number2];
-  list->strings[Number2]=S;
-}
-
-int cSearchString(cSTRINGLIST *list,char *str)
-{
- int i,result;
- if (list->Count==0) return -1;
- result=-1;
- for (i=0;i!=list->Count;i++)
- 	{
-	  if (strcmp(list->strings[i],str)==0)
-	  	{
-		  result=i;
-		  break;
-		}
-	}
- return result;
-}
 
 char *cfgets (char *s, int count, FILE *stream)
 {
@@ -174,6 +103,59 @@ char *cfgets (char *s, int count, FILE *stream)
 	}
    s[i-1]=0;
   return s;
+}
+
+char *cfgets_mem(FILE *stream)
+{
+  char *S; //memBuffer
+  char *S2;
+  unsigned int lenS;//reserved Memory
+  unsigned int lenSCount;// depends of charakters
+  unsigned int stdlenS;//momemory allocation buffer size
+  int ready;
+  int i;
+  char ch;
+  
+  stdlenS=128;
+  lenS=stdlenS;
+  S=(char*)malloc(lenS);
+  //lenSCount=0;
+  ready=0;
+  i=0;
+  ch=0;
+  
+  while (ready==0)
+    {
+	  ch=fgetc(stream);
+	  if ((ch==EOF) && (i==0)) 
+	                {
+	                    free(S);
+	                    S=NULL;
+                            return NULL;
+                        }
+	  if (i>=lenS-2) 
+	                { 
+                            lenS+=stdlenS;
+                            S=(char*)realloc(S,lenS);
+                            if (S==NULL) 
+                                {
+                                  return NULL;
+                                }
+	                }
+      if (ch==13) 
+		 {i--;} else
+	  if (ch==10)
+	  	 {ready=1;} else
+	  if (ch==EOF)
+	  	 {ready=1;} else
+	     {S[i]=ch;}	 
+	  i++;
+	}
+   S[i-1]=0;
+   S2=(char*)malloc(strlen(S)+1);
+   strcpy(S2,S);
+   free(S);
+  return S2;
 }
 
 int cfgeti (int *number,FILE *stream)

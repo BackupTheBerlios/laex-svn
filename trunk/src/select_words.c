@@ -10,6 +10,7 @@
 #include "data.h"
 #include "centry.h"
 #include "main_window.h"
+#include "dialog_messages.h"
 
 void main_window_init_comboboxSelectWords(gpointer user_data)
 {
@@ -53,9 +54,15 @@ void main_window_ontoolbuttonSelectWordsInit(GtkWidget *widget, gpointer user_da
     int i;
 
     g_print("... main_window_ontoolbuttonSelectWordsInit\n");
+    main_window_Show_treeviewGroup(user_data);
     data = (cDATA*) user_data;
     comboboxSelectGroup = GTK_COMBO_BOX(gtk_builder_get_object (data->main_window_ui,"comboboxSelectGroup"));
     comboboxSelectWords = GTK_COMBO_BOX(gtk_builder_get_object (data->main_window_ui,"comboboxSelectWords"));
+    if (data->grouplist->len==0)
+       {
+         dialog_message(_("There is no group available!\nOnly words which are member of a group can be trained!\nPlease use the dictionary to look up the words you like to train\nand click to the property button to mark them as a group!"));
+         return;
+       } 
     liststore = GTK_LIST_STORE(gtk_combo_box_get_model (comboboxSelectGroup));
     if (liststore==NULL)
       {
@@ -125,7 +132,7 @@ void main_window_change_treeviewSelectWords(gpointer user_data)
      cDATA *data;
      cENTRY *entry;
      char *group;
-     int i;
+     int i,i2;
 
      data = (cDATA*) user_data; 
 	 comboboxSelectWords = GTK_COMBO_BOX(gtk_builder_get_object (data->main_window_ui,"comboboxSelectWords"));
@@ -163,6 +170,7 @@ void main_window_change_treeviewSelectWords(gpointer user_data)
     gtk_tree_store_clear (GTK_TREE_STORE(model));
     group = gtk_combo_box_get_active_text (comboboxSelectGroup);
     if (group==NULL) return;
+    i2=0;
     for (i=0;i!=(int)data->cwordlist->len;i++)
       {
         entry = g_array_index (data->cwordlist, cENTRY*, i); 
@@ -174,7 +182,10 @@ void main_window_change_treeviewSelectWords(gpointer user_data)
                                 1, entry->word2,
                                 2,entry,
                                 -1);
+                 i2++;
+                 if (i2>=100) break;
           }
+       
       }
     
 }
@@ -250,33 +261,17 @@ void main_window_onbtnSelectWordsSelectAll(GtkWidget *widget, gpointer user_data
 
 void main_window_onbtnSelectWordsToPanel1(GtkWidget *widget, gpointer user_data)
 {
-    GtkWidget *dialog, *label, *content_area,*alig;
     cDATA *data;
     data = (cDATA*) user_data;
     int i;
     cENTRY *entry;
     GtkComboBox *comboboxSelectGroup;
     char *group;
+    gint result;
     g_print("... main_window_onbtnSelectWordsToPanel1\n");
     comboboxSelectGroup = GTK_COMBO_BOX(gtk_builder_get_object (data->main_window_ui,"comboboxSelectGroup"));
     group = gtk_combo_box_get_active_text (comboboxSelectGroup);
-    dialog = gtk_dialog_new_with_buttons (_("Question!"),
-                                         GTK_WINDOW(gtk_builder_get_object (data->main_window_ui,"main_window")),
-                                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                                         GTK_STOCK_YES,
-                                         GTK_RESPONSE_YES,
-                                         GTK_STOCK_NO,
-                                         GTK_RESPONSE_NO,
-                                         NULL);
-   content_area = GTK_WIDGET(GTK_DIALOG(dialog)->vbox);//gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-   label = gtk_label_new (_("Are you sure that you want to put every word in this group (2-4) to Panel 1?"));
-   //gtk_unref(label);
-   alig = gtk_alignment_new(0.5,0.5,0.5,0.5);
-   gtk_alignment_set_padding ( GTK_ALIGNMENT(alig),48,48,24,24);
-   gtk_container_add (GTK_CONTAINER (content_area), alig);
-   gtk_container_add (GTK_CONTAINER (alig), label);
-   gtk_widget_show_all (dialog);
-   gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+   result = dialog_question(_("Are you sure that you want to put every word in this group (2-4) to Panel 1?"));
    if (result==GTK_RESPONSE_YES)
      {
         for (i=0;i!=(int)data->cwordlist->len;i++)
@@ -290,39 +285,22 @@ void main_window_onbtnSelectWordsToPanel1(GtkWidget *widget, gpointer user_data)
            } 
        
      }
-  gtk_widget_destroy (dialog);
   main_window_change_treeviewSelectWords(user_data);
 }
 
 void main_window_onbtnSelectWordsToPanel0(GtkWidget *widget, gpointer user_data)
 {
-    GtkWidget *dialog, *label, *content_area,*alig;
     cDATA *data;
     data = (cDATA*) user_data;
     int i;
     cENTRY *entry;
     GtkComboBox *comboboxSelectGroup;
     char *group;
+    gint result;
     g_print("... main_window_onbtnSelectWordsToPanel0\n");
     comboboxSelectGroup = GTK_COMBO_BOX(gtk_builder_get_object (data->main_window_ui,"comboboxSelectGroup"));
     group = gtk_combo_box_get_active_text (comboboxSelectGroup);
-    dialog = gtk_dialog_new_with_buttons (_("Question!"),
-                                         GTK_WINDOW(gtk_builder_get_object (data->main_window_ui,"main_window")),
-                                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                                         GTK_STOCK_YES,
-                                         GTK_RESPONSE_YES,
-                                         GTK_STOCK_NO,
-                                         GTK_RESPONSE_NO,
-                                         NULL);
-   content_area = GTK_WIDGET(GTK_DIALOG(dialog)->vbox);//gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-   label = gtk_label_new (_("Are you sure that you want to put every word to Panel 0?"));
-   //gtk_unref(label);
-   alig = gtk_alignment_new(0.5,0.5,0.5,0.5);
-   gtk_alignment_set_padding ( GTK_ALIGNMENT(alig),48,48,24,24);
-   gtk_container_add (GTK_CONTAINER (content_area), alig);
-   gtk_container_add (GTK_CONTAINER (alig), label);
-   gtk_widget_show_all (dialog);
-   gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+   result = dialog_question(_("Are you sure that you want to put every word to Panel 0?")); 
    if (result==GTK_RESPONSE_YES)
      {
         for (i=0;i!=(int)data->cwordlist->len;i++)
@@ -336,7 +314,6 @@ void main_window_onbtnSelectWordsToPanel0(GtkWidget *widget, gpointer user_data)
            } 
        
      }
-  gtk_widget_destroy (dialog);
   main_window_change_treeviewSelectWords(user_data);
 }
 

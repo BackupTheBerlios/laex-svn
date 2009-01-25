@@ -3,7 +3,7 @@
  *
  *  Tue Jan 13 15:59:51 2009
  *  Copyright  2009  chrikle
- *  <chrikle@<host>>
+ *  <chrikle@berlios.de>
  ****************************************************************************/
 
 #include <string.h>
@@ -12,6 +12,7 @@
 #include "centry.h"
 #include "main_window.h"
 #include "statistics.h"
+#include "dialog_messages.h"
 
 void main_window_ontoolbuttonWordPractise(GtkWidget *widget, gpointer user_data)
 {
@@ -19,12 +20,11 @@ void main_window_ontoolbuttonWordPractise(GtkWidget *widget, gpointer user_data)
     int i;
     cENTRY *entry;
     cDATA *data;
-    static char S[100];
+    char S[100];
     GtkDialog *dialog;
     gint result;
     gboolean allWords;
     GtkComboBox *comboboxSelectWords;
-    GtkWidget *dialog2, *label, *content_area,*alig;
 	
     g_print("... main_window_ontoolbuttonWordPractise\n");
     data=(cDATA*)user_data;
@@ -71,21 +71,7 @@ void main_window_ontoolbuttonWordPractise(GtkWidget *widget, gpointer user_data)
     if (data->trainlist->len==0)
         {
             g_array_free(data->trainlist,TRUE);
-            dialog2 = gtk_dialog_new_with_buttons (_("Message!"),
-                                         GTK_WINDOW(gtk_builder_get_object (data->main_window_ui,"main_window")),
-                                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                                         GTK_STOCK_OK,
-                                         GTK_RESPONSE_NONE,
-                                         NULL);
-            content_area = GTK_WIDGET(GTK_DIALOG(dialog2)->vbox);//gtk_dialog_get_content_area (GTK_DIALOG (dialog2));
-            label = gtk_label_new (_("There are no Words selected in this group!\nOnly words from Panel 1 to 4 will be asked!"));
-            alig = gtk_alignment_new(0.5,0.5,0.5,0.5);
-            gtk_alignment_set_padding ( GTK_ALIGNMENT(alig),48,48,24,24);
-            gtk_container_add (GTK_CONTAINER (content_area), alig);
-            gtk_container_add (GTK_CONTAINER (alig), label);
-            gtk_widget_show_all (dialog2);
-            gtk_dialog_run (GTK_DIALOG (dialog2));
-            gtk_widget_destroy (dialog2);
+            dialog_message(_("There are no Words selected in this group!\nOnly words from Panel 1 to 4 will be asked!"));
             return;
         }
     // randomize:
@@ -255,10 +241,12 @@ gboolean known(char *original, char* answered)
 			                if ((S[i2] == '{') || (S[i2] == '['))
 			                        {
 			                                bracket++;
+			                                continue;
 			                        }
 			                if ((S[i2] == '}') || (S[i2] == ']'))
 			                        {
 			                                bracket--;
+			                                continue;
 			                        }
 			                if ((S[i2] != ' ') && (bracket==0)) 
 				                {
@@ -277,7 +265,7 @@ gboolean known(char *original, char* answered)
 				                }
 			        }
 		          ans2[i3]=0;
-		          g_print("%s\n%s\n",S2,ans2);
+		          //g_print("%s\n%s\n",S2,ans2);
 		          if (strcmp(S2,ans2)==0)
                                 {
                                         result = TRUE;

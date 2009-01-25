@@ -52,6 +52,10 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#define LT_OBJDIR ".libs/"
+
 /* Name of package */
 #define PACKAGE "laex"
 
@@ -62,16 +66,16 @@
 #define PACKAGE_NAME "laex"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "laex 0.1"
+#define PACKAGE_STRING "laex 0.8"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "laex"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.1"
+#define PACKAGE_VERSION "0.8"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.1"
+#define VERSION "0.8"
