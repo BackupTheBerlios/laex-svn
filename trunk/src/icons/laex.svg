@@ -121,6 +121,52 @@
        x2="751.3913"
        y2="1124.5989"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2393"
+       id="linearGradient2417"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0488382,0,0,0.9278249,-10.54186,23.981509)"
+       x1="160"
+       y1="299.50504"
+       x2="474.28571"
+       y2="468.07648" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2412"
+       id="linearGradient2419"
+       gradientUnits="userSpaceOnUse"
+       x1="473.04333"
+       y1="288.11496"
+       x2="250.70958"
+       y2="556.7879" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2412"
+       id="linearGradient2421"
+       gradientUnits="userSpaceOnUse"
+       x1="473.04333"
+       y1="288.11496"
+       x2="250.70958"
+       y2="556.7879" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2412"
+       id="linearGradient2423"
+       gradientUnits="userSpaceOnUse"
+       x1="473.04333"
+       y1="288.11496"
+       x2="250.70958"
+       y2="556.7879" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2412"
+       id="linearGradient2425"
+       gradientUnits="userSpaceOnUse"
+       x1="473.04333"
+       y1="288.11496"
+       x2="250.70958"
+       y2="556.7879" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -227,5 +273,33 @@
          x="-121.90598"
          y="820.69574"
          style="font-size:331.49383545000000595px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#0169c9;font-family:LMMathSymbols10;-inkscape-font-specification:LMMathSymbols10 Bold Italic">La</tspan></text>
-  </g>
+    <a
+       id="a2405"
+       inkscape:export-filename="/home/chrikle/projects/entwicklung/laex/trunk/src/icons/laex_big.png"
+       inkscape:export-xdpi="37.790802"
+       inkscape:export-ydpi="37.790802"
+       transform="matrix(2.5422444,0,0,1.5240907,-381.97665,667.92763)">
+      <path
+         id="path2407"
+         d="M 267.09375,319.375 C 241.88234,319.13686 216.97197,327.75655 196.5625,342.375 C 188.91219,347.66168 183.39032,357.8105 187.65625,366.9375 C 193.58467,381.49788 206.61096,391.51605 213.75696,405.40317 C 225.98206,425.33878 246.31574,440.91273 269.80914,444.26557 C 281.83125,446.80537 292.38729,453.22119 302.96542,459.11988 C 313.7156,464.4995 325.9654,466.70121 337.87597,464.93628 C 363.92752,463.77113 389.95682,461.71549 416.03125,461.375 C 435.0955,459.1067 452.33032,448.04924 463.78064,432.85268 C 478.24618,416.4424 490.94607,397.57421 496.36756,376.15626 C 497.28701,361.57591 485.60421,349.72587 473.14553,344.11614 C 453.53369,332.82399 432.03717,321.14547 408.65625,322.71875 C 389.55585,323.39669 371.38279,331.50078 352.12499,330.13281 C 333.03014,329.89769 314.72036,324.01628 296,321.125 C 286.42814,319.70625 276.76531,319.15112 267.09375,319.375 z"
+         style="fill:url(#linearGradient2417);fill-opacity:1;stroke:#333333;stroke-width:0.98647767" />
+    </a>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2409"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:url(#linearGradient2425);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       transform="matrix(2.7971357,-0.3896524,0.5979832,1.5428093,-664.41715,792.36648)"
+       inkscape:export-filename="/home/chrikle/projects/entwicklung/laex/trunk/src/icons/laex_big.png"
+       inkscape:export-xdpi="37.790802"
+       inkscape:export-ydpi="37.790802"><flowRegion
+         id="flowRegion2411"
+         style="fill:url(#linearGradient2421);fill-opacity:1"><rect
+           id="rect2413"
+           width="332.85715"
+           height="200"
+           x="234.28572"
+           y="336.64789"
+           style="fill:url(#linearGradient2419);fill-opacity:1" /></flowRegion><flowPara
+         id="flowPara2415"
+         style="font-size:72px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:url(#linearGradient2423);fill-opacity:1;font-family:LMMathSymbols10;-inkscape-font-specification:LMMathSymbols10 Bold Italic">LaEx</flowPara></flowRoot>  </g>
 </svg>

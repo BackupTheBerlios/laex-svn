@@ -599,7 +599,7 @@ void open_link (GtkAboutDialog *dialog,
   #else // GTK_CHECK_VERSION(2,14,0)
   char *S,*S2;
   S = _("This function is only available, if your gtk Version is upper than or equal 2.14!\n\nUnable to open:");
-  S2 = (char*)malloc(stren(S)+strlen(link)+1);
+  S2 = (char*)malloc(strlen(S)+strlen(link)+1);
   sprintf(S2,"%s%s",S,link);
   dialog_message (S2);
   free(S2);
