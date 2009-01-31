@@ -662,7 +662,7 @@ void main_window_onbtnEditGroup(GtkWidget *widget, gpointer user_data)
   if (gtk_tree_selection_get_selected (sel, &model, &iter))
         {
           //  gtk_tree_model_get (model, &iter, 1, &group, -1);
-            g_signal_emit_by_name(renderer,"edit",NULL); 
+          //  g_signal_emit_by_name(renderer,"edit",NULL); 
         }    
 }
 
