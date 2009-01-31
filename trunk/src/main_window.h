@@ -26,7 +26,12 @@ G_MODULE_EXPORT void main_window_ontoggleProperties (GtkWidget *widget, gpointer
 G_MODULE_EXPORT void main_window_ontreeviewGroupChoice (GtkCellRendererToggle *cell,gchar *path_string,gpointer user_data);
 G_MODULE_EXPORT void main_window_ontreeviewGroupEdited(GtkCellRendererText *cell,gchar *path_string,gchar *new_text,gpointer user_data);
 G_MODULE_EXPORT void main_window_ontranslationTreeViewCursorChanged(GtkTreeView *tree_view,gpointer user_data);
+G_MODULE_EXPORT gboolean main_window_ontranslationTreeViewButtonPressed(GtkWidget *treeview, GdkEventButton *event, gpointer user_data);
+G_MODULE_EXPORT gboolean main_window_ontranslationTreeView_onPopupMenu(GtkWidget *treeview, gpointer user_data);
+G_MODULE_EXPORT void do_translationTreeView_popup_menu (GtkWidget *my_widget, GdkEventButton *event,gpointer user_data);
+
 G_MODULE_EXPORT void main_window_onbtnAddGroup(GtkWidget *widget, gpointer user_data);
+G_MODULE_EXPORT void main_window_onbtnEditGroup(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_onbtnDeleteGroup(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonImport(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonPreferences(GtkWidget *widget, gpointer user_data);

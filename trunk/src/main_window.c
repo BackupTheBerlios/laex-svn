@@ -20,8 +20,13 @@ void main_window_onConnect(GtkWidget *main_window, gpointer user_data)
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"main_window")),"destroy", G_CALLBACK(main_window_onQuit),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnSearch")),"clicked", G_CALLBACK(main_window_onSearch),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toggleProperties")),"toggled", G_CALLBACK(main_window_ontoggleProperties),user_data);
+    
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"translationTreeView")),"cursor-changed", G_CALLBACK(main_window_ontranslationTreeViewCursorChanged),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"translationTreeView")),"button-press-event", G_CALLBACK(main_window_ontranslationTreeViewButtonPressed),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"translationTreeView")), "popup-menu", (GCallback)main_window_ontranslationTreeView_onPopupMenu, user_data);
+
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnAddGroup")),"clicked", G_CALLBACK(main_window_onbtnAddGroup),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnEditGroup")),"clicked", G_CALLBACK(main_window_onbtnEditGroup),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnDeleteGroup")),"clicked", G_CALLBACK(main_window_onbtnDeleteGroup),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnNewEntry")),"clicked", G_CALLBACK(main_window_onbtnNewEntry),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnEditEntry")),"clicked", G_CALLBACK(main_window_onbtnEditEntry),user_data);
@@ -50,6 +55,7 @@ void main_window_onConnect(GtkWidget *main_window, gpointer user_data)
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnSelectWordsSelectAll")),"clicked", G_CALLBACK(main_window_onbtnSelectWordsSelectAll),user_data);	
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnSelectWordsToPanel1")),"clicked", G_CALLBACK(main_window_onbtnSelectWordsToPanel1),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnSelectWordsToPanel0")),"clicked", G_CALLBACK(main_window_onbtnSelectWordsToPanel0),user_data);
+
 
 }
 
@@ -185,7 +191,7 @@ void main_window_init_treeviewGroup(gpointer user_data)
     gtk_tree_view_column_add_attribute(col, renderer, "text", 1);
     g_object_set(renderer,"editable",TRUE,NULL);
     g_signal_connect(renderer, "edited", (GCallback) main_window_ontreeviewGroupEdited, user_data);
-    
+   
     treestore = gtk_tree_store_new(2,
                                  G_TYPE_BOOLEAN,
                                  G_TYPE_STRING);
@@ -417,6 +423,7 @@ void main_window_ontreeviewGroupChoice (GtkCellRendererToggle *cell,gchar *path_
 
 
 
+
 void main_window_ontranslationTreeViewCursorChanged(GtkTreeView *tree_view,gpointer user_data)
 {
     GtkTreeSelection* sel;
@@ -457,6 +464,118 @@ void main_window_ontranslationTreeViewCursorChanged(GtkTreeView *tree_view,gpoin
                    gtk_tree_model_get (modelGroup, &iterGroup, 1, &S, -1);
                  }
         }
+}
+
+gboolean main_window_ontranslationTreeViewButtonPressed(GtkWidget *treeview, GdkEventButton *event, gpointer user_data)
+{
+  cDATA *data;
+  data = user_data;
+  /* single click with the right mouse button? */
+    if (event->type == GDK_BUTTON_PRESS  &&  event->button == 3)
+    {
+      g_print ("Single right click on translationTreeView.\n");
+
+      if (1)
+      {
+        GtkTreeSelection *selection;
+
+        selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+
+        if (gtk_tree_selection_count_selected_rows(selection)  <= 1)
+        {
+           GtkTreePath *path;
+           /* Get tree path for row that was clicked */
+           if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(treeview),
+                                             (gint) event->x, 
+                                             (gint) event->y,
+                                             &path, NULL, NULL, NULL))
+           {
+             gtk_tree_selection_unselect_all(selection);
+             gtk_tree_selection_select_path(selection, path);
+             gtk_tree_path_free(path);
+           }
+        }
+      } /* end of optional bit */
+
+      do_translationTreeView_popup_menu(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"translationTreeView")),event,user_data);
+      return TRUE; /* we handled this */
+    }
+ return FALSE;
+}
+
+gboolean main_window_ontranslationTreeView_onPopupMenu(GtkWidget *treeview, gpointer user_data)
+{
+  do_translationTreeView_popup_menu(treeview,NULL,user_data);
+  return TRUE;
+}
+
+void do_translationTreeView_popup_menu (GtkWidget *my_widget, GdkEventButton *event, gpointer user_data)
+{
+  GtkWidget *menu;
+  GtkWidget *new_item;
+  GtkWidget *edit_item;
+  GtkWidget *delete_item;
+  int button, event_time;
+  GtkTreeSelection *selection;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  cDATA *data;
+  gboolean isselected;
+
+  
+  data = user_data;
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"translationTreeView")));
+  model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"translationTreeView")));
+   
+    
+  if (gtk_tree_selection_get_selected (selection, &model, &iter))
+    {
+      isselected=TRUE;
+    } else
+    {
+      isselected=FALSE;
+    }
+
+  
+  menu = gtk_menu_new ();
+
+  new_item = gtk_image_menu_item_new_with_label (_("New Entry"));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(new_item),gtk_image_new_from_stock("gtk-new",1));
+  edit_item = gtk_image_menu_item_new_with_label (_("Edit Entry"));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(edit_item),gtk_image_new_from_stock("gtk-edit",1));
+  delete_item = gtk_image_menu_item_new_with_label (_("Delete Entry"));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(delete_item),gtk_image_new_from_stock("gtk-delete",1));
+  
+    
+  gtk_widget_set_sensitive(edit_item,isselected);
+  gtk_widget_set_sensitive(delete_item,isselected);
+    
+  
+  g_signal_connect (new_item, "activate", G_CALLBACK(main_window_onbtnNewEntry), user_data);
+  g_signal_connect (edit_item, "activate", G_CALLBACK(main_window_onbtnEditEntry), user_data);
+  g_signal_connect (delete_item, "activate", G_CALLBACK(main_window_onbtnDeleteEntry), user_data);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), new_item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), edit_item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), delete_item);
+  
+   /* g_signal_connect (menu, "deactivate", 
+                    G_CALLBACK (gtk_widget_destroy), NULL);*/
+
+  if (event)
+    {
+      button = event->button;
+      event_time = event->time;
+    }
+  else
+    {
+      button = 0;
+      event_time = gtk_get_current_event_time ();
+    }
+  
+  gtk_widget_show_all(menu);
+  gtk_menu_attach_to_widget (GTK_MENU (menu), my_widget, NULL);
+  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
+                  button, event_time);
 }
 
 void main_window_ontreeviewGroupEdited(GtkCellRendererText *cell,gchar *path_string,gchar *new_text,gpointer user_data)
@@ -528,6 +647,23 @@ void main_window_onbtnAddGroup(GtkWidget *widget, gpointer user_data)
                                 0, FALSE,
                                 1, S,
                                 -1);
+}
+
+void main_window_onbtnEditGroup(GtkWidget *widget, gpointer user_data)
+{
+  cDATA *data;
+  GtkTreeSelection* sel;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  g_print("... main_window_onbtnEditGroup\n");
+  data = (cDATA*) user_data;
+  sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
+  model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
+  if (gtk_tree_selection_get_selected (sel, &model, &iter))
+        {
+          //  gtk_tree_model_get (model, &iter, 1, &group, -1);
+            g_signal_emit_by_name(renderer,"edit",NULL); 
+        }    
 }
 
 void main_window_onbtnDeleteGroup(GtkWidget *widget, gpointer user_data)
