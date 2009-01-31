@@ -574,6 +574,7 @@ void main_window_ontoolbuttonImport(GtkWidget *widget, gpointer user_data)
     g_print("... main_window_ontoolbuttonImport\n");
     data = (cDATA*) user_data;
     assistant_import_run(user_data);
+    
 }
 
 void main_window_ontoolbuttonPreferences(GtkWidget *widget, gpointer user_data)
@@ -586,7 +587,7 @@ void main_window_ontoolbuttonHelp(GtkWidget *widget, gpointer user_data)
     g_print("... main_window_ontoolbuttonHelp\n");
     open_link (NULL,"file://"DOCHTML_PATH"main.html", user_data);
     //open_link (NULL,"ghelp:"DOCHTML_PATH"main.html", user_data);
-    //open_link (NULL,"ghelp:///usr/local/doc/laex/html/main.html",user_data);
+    //open_link (NULL,"ghelp:///usr/local/doc/laex/html/main.html",user_data);  
 }
 
 
@@ -598,7 +599,7 @@ void open_link (GtkAboutDialog *dialog,
   gtk_show_uri (NULL,link,GDK_CURRENT_TIME,NULL);
   #else // GTK_CHECK_VERSION(2,14,0)
   char *S,*S2;
-  S = _("This function is only available, if your gtk Version is upper than or equal 2.14!\n\nUnable to open:");
+  S = _("This function is only available, if your gtk Version is upper than or equal 2.14!\n\nUnable to open:\n");
   S2 = (char*)malloc(strlen(S)+strlen(link)+1);
   sprintf(S2,"%s%s",S,link);
   dialog_message (S2);

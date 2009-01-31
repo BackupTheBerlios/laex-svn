@@ -22,9 +22,9 @@ This assistant will help you to import a dictionary
 or the result of a training, which was done on
 another computer!
 
-Be sure that you did a security copy of your 
-old vocabulary training files, because me be you
-lose it if you import a file!
+Be sure that you made a security copy of your 
+old vocabulary training files, because maybe you
+loose your old results if you import a file!
 
 </property>
           </object>
@@ -222,12 +222,6 @@ lose it if you import a file!
       </object>
     </child>
     <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
       <object class="GtkLabel" id="label18">
         <property name="visible">True</property>
         <property name="label" translatable="yes">
@@ -236,6 +230,30 @@ new one!</property>
       </object>
       <packing>
         <property name="page_type">confirm</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkAlignment" id="alignment2">
+        <property name="visible">True</property>
+        <property name="has_tooltip">True</property>
+        <property name="top_padding">20</property>
+        <property name="bottom_padding">20</property>
+        <property name="left_padding">20</property>
+        <property name="right_padding">20</property>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="has_tooltip">True</property>
+            <property name="label" translatable="yes">
+Congratulation!
+
+The file was successfully imported!
+</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="page_type">summary</property>
       </packing>
     </child>
   </object>
