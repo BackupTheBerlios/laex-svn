@@ -7,6 +7,8 @@
 #include <gtk/gtk.h>
 
 
+
+
 void main_window_init();
 void main_window_run(gpointer user_data);
 void main_window_delete(gpointer user_data);
@@ -14,7 +16,9 @@ void main_window_delete(gpointer user_data);
 
 void main_window_onConnect(GtkWidget *main_window, gpointer user_data);
 void main_window_init_translationTreeView(gpointer user_data);
+void main_window_init_translation_PopUp(gpointer user_data);
 void main_window_init_treeviewGroup(gpointer user_data);
+void main_window_init_Group_PopUp(gpointer user_data);
 void main_window_Show_treeviewGroup(gpointer user_data);
 void open_link (GtkAboutDialog *dialog, const gchar *link, gpointer data);
 
@@ -28,11 +32,17 @@ G_MODULE_EXPORT void main_window_ontreeviewGroupEdited(GtkCellRendererText *cell
 G_MODULE_EXPORT void main_window_ontranslationTreeViewCursorChanged(GtkTreeView *tree_view,gpointer user_data);
 G_MODULE_EXPORT gboolean main_window_ontranslationTreeViewButtonPressed(GtkWidget *treeview, GdkEventButton *event, gpointer user_data);
 G_MODULE_EXPORT gboolean main_window_ontranslationTreeView_onPopupMenu(GtkWidget *treeview, gpointer user_data);
-G_MODULE_EXPORT void do_translationTreeView_popup_menu (GtkWidget *my_widget, GdkEventButton *event,gpointer user_data);
+G_MODULE_EXPORT void do_translationTreeView_popup_menu (GdkEventButton *event,gpointer user_data);
 
 G_MODULE_EXPORT void main_window_onbtnAddGroup(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_onbtnEditGroup(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_onbtnDeleteGroup(GtkWidget *widget, gpointer user_data);
+
+G_MODULE_EXPORT void main_window_onGroupTreeViewCursorChanged(GtkTreeView *tree_view,gpointer user_data);
+G_MODULE_EXPORT gboolean main_window_onGroupTreeViewButtonPressed(GtkWidget *treeview, GdkEventButton *event, gpointer user_data);
+G_MODULE_EXPORT gboolean main_window_onGroupTreeView_onPopupMenu(GtkWidget *treeview, gpointer user_data);
+G_MODULE_EXPORT void do_GroupTreeView_popup_menu (GdkEventButton *event, gpointer user_data);
+
 G_MODULE_EXPORT void main_window_ontoolbuttonImport(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonPreferences(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonHelp(GtkWidget *widget, gpointer user_data);

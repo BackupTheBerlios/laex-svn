@@ -25,6 +25,7 @@ void main_window_ontoolbuttonWordPractise(GtkWidget *widget, gpointer user_data)
     gint result;
     gboolean allWords;
     GtkComboBox *comboboxSelectWords;
+    gboolean wordsingroup;
 	
     g_print("... main_window_ontoolbuttonWordPractise\n");
     data=(cDATA*)user_data;
@@ -50,10 +51,16 @@ void main_window_ontoolbuttonWordPractise(GtkWidget *widget, gpointer user_data)
 	
     data->trainlist=g_array_new(TRUE,FALSE,sizeof(cENTRY*));
     data->traingroup=gtk_combo_box_get_active_text(GTK_COMBO_BOX(gtk_builder_get_object (data->main_window_ui,"comboboxSelectGroup")));
-	
+    
+    wordsingroup=FALSE;
+    	
     for (i=0;i!=(int)data->cwordlist->len;i++)
       {
         entry = g_array_index (data->cwordlist, cENTRY*, i);
+        if ((entry->panel>0)&&(centry_groupexist(entry,data->traingroup)==TRUE))
+          {
+            wordsingroup=TRUE;
+          }
         if ((entry->panel>0)&&(entry->days==0)&&(centry_groupexist(entry,data->traingroup)==TRUE))
           {
              if (allWords==TRUE)
@@ -71,7 +78,28 @@ void main_window_ontoolbuttonWordPractise(GtkWidget *widget, gpointer user_data)
     if (data->trainlist->len==0)
         {
             g_array_free(data->trainlist,TRUE);
-            dialog_message(_("There are no Words selected in this group!\nOnly words from Panel 1 to 4 will be asked!"));
+            if (wordsingroup==TRUE)
+              {
+                result = dialog_question(_("There are no words in this group for today!\nWould you like to train the words of tomorrow?"));
+                if (result==GTK_RESPONSE_YES)
+                   {
+                       for (i=0;i!=(int)data->cwordlist->len;i++)
+                           {
+                                entry = g_array_index (data->cwordlist, cENTRY*, i);
+                                if ((entry->panel>0)&&(centry_groupexist(entry,data->traingroup)==TRUE))
+                                  {
+                                    if (entry->days>0)
+                                      {
+                                        entry->days--;
+                                      }
+                                  }
+                           }
+                     main_window_ontoolbuttonWordPractise(widget,user_data);
+                     }
+              } else
+              {
+                dialog_message(_("There are no Words selected in this group!\nOnly words from Panel 1 to 4 will be asked!"));
+              }  
             return;
         }
     // randomize:
@@ -238,12 +266,12 @@ gboolean known(char *original, char* answered)
 		          i3=0;
 		          for (i2=0;i2!=strlen(S);i2++)
 			        {
-			                if ((S[i2] == '{') || (S[i2] == '['))
+			                if ((S[i2] == '{') || (S[i2] == '[') || (S[i2] == '('))
 			                        {
 			                                bracket++;
 			                                continue;
 			                        }
-			                if ((S[i2] == '}') || (S[i2] == ']'))
+			                if ((S[i2] == '}') || (S[i2] == ']') || (S[i2] == ')'))
 			                        {
 			                                bracket--;
 			                                continue;

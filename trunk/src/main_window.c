@@ -25,6 +25,10 @@ void main_window_onConnect(GtkWidget *main_window, gpointer user_data)
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"translationTreeView")),"button-press-event", G_CALLBACK(main_window_ontranslationTreeViewButtonPressed),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"translationTreeView")), "popup-menu", (GCallback)main_window_ontranslationTreeView_onPopupMenu, user_data);
 
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")),"cursor-changed", G_CALLBACK(main_window_onGroupTreeViewCursorChanged),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")),"button-press-event", G_CALLBACK(main_window_onGroupTreeViewButtonPressed),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")), "popup-menu", (GCallback)main_window_onGroupTreeView_onPopupMenu, user_data);
+
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnAddGroup")),"clicked", G_CALLBACK(main_window_onbtnAddGroup),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnEditGroup")),"clicked", G_CALLBACK(main_window_onbtnEditGroup),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnDeleteGroup")),"clicked", G_CALLBACK(main_window_onbtnDeleteGroup),user_data);
@@ -72,7 +76,9 @@ void main_window_run(gpointer user_data)
  gtk_widget_show (GTK_WIDGET(main_window));
  main_window_onConnect(GTK_WIDGET(main_window),user_data);
  main_window_init_translationTreeView(user_data);
+ main_window_init_translation_PopUp(user_data);
  main_window_init_treeviewGroup(user_data);
+ main_window_init_Group_PopUp(user_data);
  main_window_init_comboboxSelectWords(user_data);
  
  assistant_import_init(user_data);
@@ -96,6 +102,8 @@ void main_window_run(gpointer user_data)
      
   gtk_about_dialog_set_email_hook (open_link, NULL, NULL);
   gtk_about_dialog_set_url_hook (open_link, NULL, NULL);
+  
+  
 }
 
 void main_window_delete(gpointer user_data)
@@ -161,16 +169,62 @@ void main_window_init_translationTreeView(gpointer user_data)
        g_object_unref (model);
        }
    
-	gtk_tree_store_clear(treestore);
+       gtk_tree_store_clear(treestore);
+       
+       gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnEditEntry")),FALSE);
+       gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnDeleteEntry")),FALSE);
   
 }
 
+     GtkCellRenderer *rendererabc;
+     
+void main_window_init_translation_PopUp(gpointer user_data)
+{
+  cDATA *data;
+  data = (cDATA*) user_data;
+  data->translationViewPopUp.menu = gtk_menu_new ();
+  data->translationViewPopUp.new_item = gtk_image_menu_item_new_with_label (_("New Entry"));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(data->translationViewPopUp.new_item),gtk_image_new_from_stock("gtk-new",1));
+  data->translationViewPopUp.edit_item = gtk_image_menu_item_new_with_label (_("Edit Entry"));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(data->translationViewPopUp.edit_item),gtk_image_new_from_stock("gtk-edit",1));
+  data->translationViewPopUp.delete_item = gtk_image_menu_item_new_with_label (_("Delete Entry"));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(data->translationViewPopUp.delete_item),gtk_image_new_from_stock("gtk-delete",1));
+  g_signal_connect (data->translationViewPopUp.new_item, "activate", G_CALLBACK(main_window_onbtnNewEntry), user_data);
+  g_signal_connect (data->translationViewPopUp.edit_item, "activate", G_CALLBACK(main_window_onbtnEditEntry), user_data);
+  g_signal_connect (data->translationViewPopUp.delete_item, "activate", G_CALLBACK(main_window_onbtnDeleteEntry), user_data);
+  gtk_menu_shell_append (GTK_MENU_SHELL (data->translationViewPopUp.menu), data->translationViewPopUp.new_item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (data->translationViewPopUp.menu), data->translationViewPopUp.edit_item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (data->translationViewPopUp.menu), data->translationViewPopUp.delete_item);
+  gtk_menu_attach_to_widget (GTK_MENU (data->translationViewPopUp.menu), GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"translationTreeView")), NULL);
+}
+
+void main_window_init_Group_PopUp(gpointer user_data)
+{
+  cDATA *data;
+  data = (cDATA*) user_data;
+  data->groupPopUp.menu = gtk_menu_new ();
+  data->groupPopUp.new_item = gtk_image_menu_item_new_with_label (_("New Group"));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(data->groupPopUp.new_item),gtk_image_new_from_stock("gtk-new",1));
+  data->groupPopUp.edit_item = gtk_image_menu_item_new_with_label (_("Edit Group"));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(data->groupPopUp.edit_item),gtk_image_new_from_stock("gtk-edit",1));
+  data->groupPopUp.delete_item = gtk_image_menu_item_new_with_label (_("Delete Group"));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(data->groupPopUp.delete_item),gtk_image_new_from_stock("gtk-delete",1));
+  g_signal_connect (data->groupPopUp.new_item, "activate", G_CALLBACK(main_window_onbtnAddGroup), user_data);
+  g_signal_connect (data->groupPopUp.edit_item, "activate", G_CALLBACK(main_window_onbtnEditGroup), user_data);
+  g_signal_connect (data->groupPopUp.delete_item, "activate", G_CALLBACK(main_window_onbtnDeleteGroup), user_data);
+  gtk_menu_shell_append (GTK_MENU_SHELL (data->groupPopUp.menu), data->groupPopUp.new_item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (data->groupPopUp.menu), data->groupPopUp.edit_item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (data->groupPopUp.menu), data->groupPopUp.delete_item);
+  gtk_menu_attach_to_widget (GTK_MENU (data->groupPopUp.menu), GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")), NULL);
+}     
+     
 void main_window_init_treeviewGroup(gpointer user_data)
 {
     cDATA *data;
     GtkTreeStore *treestore;
     GtkTreeViewColumn *col;
     GtkCellRenderer *renderer;
+
   
     data = (cDATA*) (user_data);    
     renderer = gtk_cell_renderer_toggle_new();
@@ -191,7 +245,7 @@ void main_window_init_treeviewGroup(gpointer user_data)
     gtk_tree_view_column_add_attribute(col, renderer, "text", 1);
     g_object_set(renderer,"editable",TRUE,NULL);
     g_signal_connect(renderer, "edited", (GCallback) main_window_ontreeviewGroupEdited, user_data);
-   
+   rendererabc=renderer;
     treestore = gtk_tree_store_new(2,
                                  G_TYPE_BOOLEAN,
                                  G_TYPE_STRING);
@@ -238,6 +292,9 @@ void main_window_Show_treeviewGroup(gpointer user_data)
                                 1, g_array_index (data->grouplist, char*, i),
                                 -1);
        }
+       
+      gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnEditGroup")),FALSE);
+      gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnDeleteGroup")),FALSE);      
 }
 
 
@@ -335,6 +392,8 @@ void main_window_onSearch (GtkWidget *widget, gpointer user_data)
           free(word1uppercase);
           free(word2uppercase);
       }
+      gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnEditEntry")),FALSE);
+      gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnDeleteEntry")),FALSE);
   }
 
 void main_window_ontoggleProperties (GtkWidget *widget, gpointer user_data)
@@ -463,6 +522,13 @@ void main_window_ontranslationTreeViewCursorChanged(GtkTreeView *tree_view,gpoin
                      }
                    gtk_tree_model_get (modelGroup, &iterGroup, 1, &S, -1);
                  }
+        
+           gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnEditEntry")),TRUE);
+           gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnDeleteEntry")),TRUE);
+        } else
+        {
+          gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnEditEntry")),FALSE);
+          gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnDeleteEntry")),FALSE);
         }
 }
 
@@ -474,30 +540,7 @@ gboolean main_window_ontranslationTreeViewButtonPressed(GtkWidget *treeview, Gdk
     if (event->type == GDK_BUTTON_PRESS  &&  event->button == 3)
     {
       g_print ("Single right click on translationTreeView.\n");
-
-      if (1)
-      {
-        GtkTreeSelection *selection;
-
-        selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-
-        if (gtk_tree_selection_count_selected_rows(selection)  <= 1)
-        {
-           GtkTreePath *path;
-           /* Get tree path for row that was clicked */
-           if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(treeview),
-                                             (gint) event->x, 
-                                             (gint) event->y,
-                                             &path, NULL, NULL, NULL))
-           {
-             gtk_tree_selection_unselect_all(selection);
-             gtk_tree_selection_select_path(selection, path);
-             gtk_tree_path_free(path);
-           }
-        }
-      } /* end of optional bit */
-
-      do_translationTreeView_popup_menu(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"translationTreeView")),event,user_data);
+      do_translationTreeView_popup_menu(event,user_data);
       return TRUE; /* we handled this */
     }
  return FALSE;
@@ -505,16 +548,13 @@ gboolean main_window_ontranslationTreeViewButtonPressed(GtkWidget *treeview, Gdk
 
 gboolean main_window_ontranslationTreeView_onPopupMenu(GtkWidget *treeview, gpointer user_data)
 {
-  do_translationTreeView_popup_menu(treeview,NULL,user_data);
+  do_translationTreeView_popup_menu(NULL,user_data);
   return TRUE;
 }
 
-void do_translationTreeView_popup_menu (GtkWidget *my_widget, GdkEventButton *event, gpointer user_data)
+void do_translationTreeView_popup_menu (GdkEventButton *event, gpointer user_data)
 {
-  GtkWidget *menu;
-  GtkWidget *new_item;
-  GtkWidget *edit_item;
-  GtkWidget *delete_item;
+  
   int button, event_time;
   GtkTreeSelection *selection;
   GtkTreeModel *model;
@@ -525,8 +565,7 @@ void do_translationTreeView_popup_menu (GtkWidget *my_widget, GdkEventButton *ev
   
   data = user_data;
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"translationTreeView")));
-  model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"translationTreeView")));
-   
+  model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"translationTreeView")));   
     
   if (gtk_tree_selection_get_selected (selection, &model, &iter))
     {
@@ -535,32 +574,10 @@ void do_translationTreeView_popup_menu (GtkWidget *my_widget, GdkEventButton *ev
     {
       isselected=FALSE;
     }
-
-  
-  menu = gtk_menu_new ();
-
-  new_item = gtk_image_menu_item_new_with_label (_("New Entry"));
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(new_item),gtk_image_new_from_stock("gtk-new",1));
-  edit_item = gtk_image_menu_item_new_with_label (_("Edit Entry"));
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(edit_item),gtk_image_new_from_stock("gtk-edit",1));
-  delete_item = gtk_image_menu_item_new_with_label (_("Delete Entry"));
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(delete_item),gtk_image_new_from_stock("gtk-delete",1));
-  
     
-  gtk_widget_set_sensitive(edit_item,isselected);
-  gtk_widget_set_sensitive(delete_item,isselected);
+  gtk_widget_set_sensitive(data->translationViewPopUp.edit_item,isselected);
+  gtk_widget_set_sensitive(data->translationViewPopUp.delete_item,isselected);
     
-  
-  g_signal_connect (new_item, "activate", G_CALLBACK(main_window_onbtnNewEntry), user_data);
-  g_signal_connect (edit_item, "activate", G_CALLBACK(main_window_onbtnEditEntry), user_data);
-  g_signal_connect (delete_item, "activate", G_CALLBACK(main_window_onbtnDeleteEntry), user_data);
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), new_item);
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), edit_item);
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), delete_item);
-  
-   /* g_signal_connect (menu, "deactivate", 
-                    G_CALLBACK (gtk_widget_destroy), NULL);*/
-
   if (event)
     {
       button = event->button;
@@ -572,9 +589,70 @@ void do_translationTreeView_popup_menu (GtkWidget *my_widget, GdkEventButton *ev
       event_time = gtk_get_current_event_time ();
     }
   
-  gtk_widget_show_all(menu);
-  gtk_menu_attach_to_widget (GTK_MENU (menu), my_widget, NULL);
-  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
+  gtk_widget_show_all(data->translationViewPopUp.menu);
+  gtk_menu_popup (GTK_MENU (data->translationViewPopUp.menu), NULL, NULL, NULL, NULL, 
+                  button, event_time);
+}
+
+gboolean main_window_onGroupTreeViewButtonPressed(GtkWidget *treeview, GdkEventButton *event, gpointer user_data)
+{
+  cDATA *data;
+  data = user_data;
+  /* single click with the right mouse button? */
+    if (event->type == GDK_BUTTON_PRESS  &&  event->button == 3)
+    {
+      g_print ("Single right click on GroupTreeView.\n");
+      do_GroupTreeView_popup_menu(event,user_data);
+      return TRUE; /* we handled this */
+    }
+ return FALSE;
+}
+
+gboolean main_window_onGroupTreeView_onPopupMenu(GtkWidget *treeview, gpointer user_data)
+{
+  do_GroupTreeView_popup_menu(NULL,user_data);
+  return TRUE;
+}
+
+void do_GroupTreeView_popup_menu (GdkEventButton *event, gpointer user_data)
+{
+  
+  int button, event_time;
+  GtkTreeSelection *selection;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  cDATA *data;
+  gboolean isselected;
+
+  
+  data = user_data;
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
+  model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));   
+    
+  if (gtk_tree_selection_get_selected (selection, &model, &iter))
+    {
+      isselected=TRUE;
+    } else
+    {
+      isselected=FALSE;
+    }
+    
+  gtk_widget_set_sensitive(data->groupPopUp.edit_item,isselected);
+  gtk_widget_set_sensitive(data->groupPopUp.delete_item,isselected);
+    
+  if (event)
+    {
+      button = event->button;
+      event_time = event->time;
+    }
+  else
+    {
+      button = 0;
+      event_time = gtk_get_current_event_time ();
+    }
+  
+  gtk_widget_show_all(data->groupPopUp.menu);
+  gtk_menu_popup (GTK_MENU (data->groupPopUp.menu), NULL, NULL, NULL, NULL, 
                   button, event_time);
 }
 
@@ -593,10 +671,10 @@ void main_window_ontreeviewGroupEdited(GtkCellRendererText *cell,gchar *path_str
     path = gtk_tree_path_new_from_string (path_string);
     gtk_tree_model_get_iter (model, &iter, path);
     
+    if (new_text==NULL) return;
+    if (strcmp(new_text,"")==0) return;
+    
     gtk_tree_model_get (model, &iter, 1, &oldText, -1);
-    
-    
-    
     
     for (i=0;i!=(int)data->cwordlist->len;i++)
       {
@@ -637,9 +715,13 @@ void main_window_onbtnAddGroup(GtkWidget *widget, gpointer user_data)
      data = (cDATA*) user_data;
      model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
      treestore = GTK_TREE_STORE(model);
-
-     S = (char*) malloc(strlen(_("New Group"))+1);
-     strcpy(S,_("New Group"));
+     S=dialog_input(_("New Group"),_("Group Name:"),_("New Group"));
+     if (S==NULL) return;
+     if (strcmp(S,"")==0)
+       {
+         free(S); S=NULL;
+         return;
+       }
      g_array_append_val(data->grouplist,S);
 
      gtk_tree_store_append(treestore, &iter, NULL);    
@@ -653,17 +735,29 @@ void main_window_onbtnEditGroup(GtkWidget *widget, gpointer user_data)
 {
   cDATA *data;
   GtkTreeSelection* sel;
-  GtkTreeModel *model;
-  GtkTreeIter iter;
+  GtkTreeModel *model;  GtkTreeIter iter;  GtkTreeStore *treestore;
+  char *group;
+  char *S;
+  char *PathStr;
   g_print("... main_window_onbtnEditGroup\n");
   data = (cDATA*) user_data;
   sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
   model = gtk_tree_view_get_model (GTK_TREE_VIEW(gtk_builder_get_object (data->main_window_ui,"treeviewGroup")));
-  if (gtk_tree_selection_get_selected (sel, &model, &iter))
+  treestore = GTK_TREE_STORE(model);
+    if (gtk_tree_selection_get_selected (sel, &model, &iter))
         {
-          //  gtk_tree_model_get (model, &iter, 1, &group, -1);
-          //  g_signal_emit_by_name(renderer,"edit",NULL); 
-        }    
+            gtk_tree_model_get (model, &iter, 1, &group, -1);
+            S=dialog_input(_("Edit Group"),_("Group Name:"),group);
+            if (S!=NULL)
+              {  
+                 PathStr = gtk_tree_model_get_string_from_iter (model,&iter);
+                 main_window_ontreeviewGroupEdited(NULL,PathStr,S,user_data);
+                 g_free(PathStr);
+                 PathStr=NULL;
+                 free(S);
+                 S=NULL;
+              }
+         }
 }
 
 void main_window_onbtnDeleteGroup(GtkWidget *widget, gpointer user_data)
@@ -694,7 +788,14 @@ void main_window_onbtnDeleteGroup(GtkWidget *widget, gpointer user_data)
          }
 }
 
-
+void main_window_onGroupTreeViewCursorChanged(GtkTreeView *tree_view,gpointer user_data)
+{
+   cDATA *data;
+   g_print("... main_window_onGroupTreeViewCursorChanged\n");
+   data = (cDATA*) user_data;
+   gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnEditGroup")),TRUE);
+   gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"btnDeleteGroup")),TRUE);      
+}
 
 void main_window_ontoolbuttonDictionary(GtkWidget *widget, gpointer user_data)
 {
@@ -735,7 +836,7 @@ void open_link (GtkAboutDialog *dialog,
   gtk_show_uri (NULL,link,GDK_CURRENT_TIME,NULL);
   #else // GTK_CHECK_VERSION(2,14,0)
   char *S,*S2;
-  S = _("This function is only available, if your gtk Version is upper than or equal 2.14!\n\nUnable to open:\n");
+  S = _("This function is only available, if your gtk Version is equal to or upper than Version 2.14!\n\nUnable to open:\n");
   S2 = (char*)malloc(strlen(S)+strlen(link)+1);
   sprintf(S2,"%s%s",S,link);
   dialog_message (S2);

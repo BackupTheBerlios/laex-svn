@@ -18,6 +18,18 @@
 #define LAEX_VERSION VERSION
 
 
+typedef struct {  GtkWidget *menu;
+                  GtkWidget *new_item;
+                  GtkWidget *edit_item;
+                  GtkWidget *delete_item; 
+	        } struct_translationViewPopUp;
+	        
+typedef struct {  GtkWidget *menu;
+                  GtkWidget *new_item;
+                  GtkWidget *edit_item;
+                  GtkWidget *delete_item; 
+	        } struct_GroupPopUp;
+
 
 typedef struct {    
                     char *configdir;
@@ -31,6 +43,8 @@ typedef struct {
 		    char *lang1name,*lang2name;
 		    gboolean traindirection;
 	            gboolean trainasked;
+	            struct_translationViewPopUp translationViewPopUp;
+	            struct_GroupPopUp groupPopUp;
 	            GtkBuilder *main_window_ui;
 	            GtkBuilder *dialog_edit_entry_ui;
 	            GtkBuilder *dialog_start_training_ui;

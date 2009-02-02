@@ -14,5 +14,11 @@
 
 void dialog_message (gchar *message);
 gint dialog_question(gchar *message);
+gchar *dialog_input(gchar* title,gchar *message, gchar *templ); 
+// title: title of Window
+// message: Message
+// templ: Template of String
+// return: String or NULL (if Cancel)
+// return has to be freed
 
 #endif /* DIALOG_MESSAGES_H */
