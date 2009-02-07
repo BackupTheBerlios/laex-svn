@@ -20,6 +20,7 @@ void main_window_onConnect(GtkWidget *main_window, gpointer user_data)
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"main_window")),"destroy", G_CALLBACK(main_window_onQuit),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnSearch")),"clicked", G_CALLBACK(main_window_onSearch),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toggleProperties")),"toggled", G_CALLBACK(main_window_ontoggleProperties),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toggleSearchProperties")),"toggled", G_CALLBACK(main_window_ontoggleSearchProperties),user_data);
     
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"translationTreeView")),"cursor-changed", G_CALLBACK(main_window_ontranslationTreeViewCursorChanged),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"translationTreeView")),"button-press-event", G_CALLBACK(main_window_ontranslationTreeViewButtonPressed),user_data);
@@ -410,6 +411,22 @@ void main_window_ontoggleProperties (GtkWidget *widget, gpointer user_data)
       {
             gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"frameGroup")));
             gtk_widget_show(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"alignmentEditWords")));
+      }
+      
+}
+
+void main_window_ontoggleSearchProperties (GtkWidget *widget, gpointer user_data)
+{
+    cDATA *data;
+    g_print("... main_window_ontoggleSearchProperties\n");
+    data = (cDATA*) user_data;
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(widget))==TRUE)
+      {            
+            gtk_widget_show(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"alignmentSearchOptions")));
+            
+      } else
+      {
+            gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object (data->main_window_ui,"alignmentSearchOptions")));
       }
       
 }

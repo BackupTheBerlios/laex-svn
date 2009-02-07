@@ -12,7 +12,6 @@
     <property name="title" translatable="yes">New/Edit Entry</property>
     <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
-    <property name="opacity">0.5</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
@@ -340,6 +339,7 @@
                                 <property name="visible">True</property>
                               </object>
                               <packing>
+                                <property name="expand">False</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
@@ -380,6 +380,7 @@
                                 <property name="visible">True</property>
                               </object>
                               <packing>
+                                <property name="expand">False</property>
                                 <property name="position">3</property>
                               </packing>
                             </child>

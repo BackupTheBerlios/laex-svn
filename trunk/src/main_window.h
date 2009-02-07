@@ -27,6 +27,7 @@ void open_link (GtkAboutDialog *dialog, const gchar *link, gpointer data);
 G_MODULE_EXPORT void main_window_onQuit (GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_onSearch (GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoggleProperties (GtkWidget *widget, gpointer user_data);
+G_MODULE_EXPORT void main_window_ontoggleSearchProperties (GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontreeviewGroupChoice (GtkCellRendererToggle *cell,gchar *path_string,gpointer user_data);
 G_MODULE_EXPORT void main_window_ontreeviewGroupEdited(GtkCellRendererText *cell,gchar *path_string,gchar *new_text,gpointer user_data);
 G_MODULE_EXPORT void main_window_ontranslationTreeViewCursorChanged(GtkTreeView *tree_view,gpointer user_data);

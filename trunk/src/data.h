@@ -6,16 +6,21 @@
 #include "cstrman.h"
 #include "centry.h"
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-
-
-#define _(x) x
-
 // DIRS:
 #define UI_PATH PACKAGE_DATA_DIR"/"PACKAGE"/ui/"
 #define ICON_PATH PACKAGE_DATA_DIR"/"PACKAGE"/pixmaps/"
 #define DOCHTML_PATH PACKAGE_PREFIX_DIR"/doc/"PACKAGE"/html/"
 #define LAEX_VERSION VERSION
+#else
+#define UI_PATH "ui/"
+#define ICON_PATH "icons/"
+#define DOCHTML_PATH "doc/"
+#define LAEX_VERSION "0.8.1"
+#endif
+
+#define _(x) x
 
 
 typedef struct {  GtkWidget *menu;
