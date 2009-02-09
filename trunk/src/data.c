@@ -22,9 +22,9 @@ cDATA* cdata_init()
 	data->trainasked=FALSE;
 	data->main_window_ui=0;
 	data->dialog_edit_entry_ui=NULL;
-	data->dialog_edit_entry_ui=NULL;
 	data->dialog_start_training_ui=NULL;
 	data->assistant_import_ui=NULL;
+	data->assistant_export_ui=NULL;
 	data->traindirection=FALSE;
 	data->lang1name="German";
 	data->lang2name="English";

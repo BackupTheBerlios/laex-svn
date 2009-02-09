@@ -54,6 +54,7 @@ typedef struct {
 	            GtkBuilder *dialog_edit_entry_ui;
 	            GtkBuilder *dialog_start_training_ui;
 	            GtkBuilder *assistant_import_ui;
+	            GtkBuilder *assistant_export_ui;
 	            } cDATA;
 
 

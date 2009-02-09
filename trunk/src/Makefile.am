@@ -39,7 +39,9 @@ laex_SOURCES = \
 	dialog_messages.h \
 	dialog_messages.c \
 	assistant_import.h \
-	assistant_import.c
+	assistant_import.c \
+	assistant_export.h \
+	assistant_export.c
 
 laex_LDFLAGS = \
 	-Wl,--export-dynamic

@@ -45,6 +45,7 @@ G_MODULE_EXPORT gboolean main_window_onGroupTreeView_onPopupMenu(GtkWidget *tree
 G_MODULE_EXPORT void do_GroupTreeView_popup_menu (GdkEventButton *event, gpointer user_data);
 
 G_MODULE_EXPORT void main_window_ontoolbuttonImport(GtkWidget *widget, gpointer user_data);
+G_MODULE_EXPORT void main_window_ontoolbuttonExport(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonPreferences(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonHelp(GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void main_window_ontoolbuttonabout(GtkWidget *widget, gpointer user_data);

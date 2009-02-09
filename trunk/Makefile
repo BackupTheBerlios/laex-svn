@@ -91,13 +91,13 @@ DIST_ARCHIVES = $(distdir).tar.gz
 GZIP_ENV = --best
 distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /home/chrikle/laex/trunk/missing --run aclocal-1.10
+ACLOCAL = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run aclocal-1.10
 ALL_LINGUAS = 
-AMTAR = ${SHELL} /home/chrikle/laex/trunk/missing --run tar
+AMTAR = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /home/chrikle/laex/trunk/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/chrikle/laex/trunk/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/chrikle/laex/trunk/missing --run automake-1.10
+AUTOCONF = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run automake-1.10
 AWK = gawk
 CATALOGS = 
 CATOBJEXT = .gmo
@@ -152,8 +152,8 @@ INTLTOOL_UPDATE = /usr/bin/intltool-update
 INTLTOOL_XAM_RULE = %.xam:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_XML_NOMERGE_RULE = %.xml:       %.xml.in       $(INTLTOOL_MERGE) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u /tmp $< $@
 INTLTOOL_XML_RULE = %.xml:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
-LAEX_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12 -I/usr/include/pixman-1  
-LAEX_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
+LAEX_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12  
+LAEX_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lgio-2.0 -lcairo -lpango-1.0 -lfreetype -lz -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lglib-2.0  
 LD = /usr/bin/ld
 LDFLAGS = 
 LIBOBJS = 
@@ -162,8 +162,8 @@ LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
-MAINT = #
-MAKEINFO = ${SHELL} /home/chrikle/laex/trunk/missing --run makeinfo
+MAINT = 
+MAKEINFO = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 MKINSTALLDIRS = ./mkinstalldirs
 MSGFMT = /usr/bin/msgfmt
@@ -194,10 +194,10 @@ STRIP = strip
 USE_NLS = yes
 VERSION = 0.8.1
 XGETTEXT = /usr/bin/xgettext
-abs_builddir = /home/chrikle/laex/trunk
-abs_srcdir = /home/chrikle/laex/trunk
-abs_top_builddir = /home/chrikle/laex/trunk
-abs_top_srcdir = /home/chrikle/laex/trunk
+abs_builddir = /home/chrikle/projects/entwicklung/laex/trunk
+abs_srcdir = /home/chrikle/projects/entwicklung/laex/trunk
+abs_top_builddir = /home/chrikle/projects/entwicklung/laex/trunk
+abs_top_srcdir = /home/chrikle/projects/entwicklung/laex/trunk
 ac_ct_CC = gcc
 ac_ct_DUMPBIN = 
 am__include = include
@@ -225,7 +225,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /home/chrikle/laex/trunk/install-sh
+install_sh = $(SHELL) /home/chrikle/projects/entwicklung/laex/trunk/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -261,6 +261,7 @@ laex_ui_filedir = "$(datadir)"/laex/ui
 laex_ui_file_DATA = src/ui/main_window.ui \
                     src/ui/dialogEditEntry.ui \
                     src/ui/assistant_import.ui \
+                    src/ui/assistant_export.ui \
                     src/ui/dialogStartTraining.ui
 
 laex_pixmaps_filedir = "$(datadir)"/laex/pixmaps
@@ -276,14 +277,16 @@ menu_icon_DATA = \
 menu_icondir = \
 	$(datadir)/pixmaps
 
-EXTRA_DIST = $(laexdoc_DATA) $(laexdochtml_DATA) $(laex_ui_file_DATA) $(laex_pixmaps_file_DATA) $(gnomemenu_DATA)
+EXTRA_DIST = $(laexdoc_DATA) $(laexdochtml_DATA) $(laex_ui_file_DATA) $(laex_pixmaps_file_DATA) $(gnomemenu_DATA) \
+        src/win32.zip
+
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
 am--refresh:
 	@:
-$(srcdir)/Makefile.in: # $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -310,9 +313,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
 
-$(top_srcdir)/configure: # $(am__configure_deps)
+$(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(srcdir) && $(AUTOCONF)
-$(ACLOCAL_M4): # $(am__aclocal_m4_deps)
+$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 
 config.h: stamp-h1
@@ -324,7 +327,7 @@ config.h: stamp-h1
 stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
 	@rm -f stamp-h1
 	cd $(top_builddir) && $(SHELL) ./config.status config.h
-$(srcdir)/config.h.in: # $(am__configure_deps) 
+$(srcdir)/config.h.in:  $(am__configure_deps) 
 	cd $(top_srcdir) && $(AUTOHEADER)
 	rm -f stamp-h1
 	touch $@

@@ -50,7 +50,7 @@ am_laex_OBJECTS = main.$(OBJEXT) main_window.$(OBJEXT) \
 	word_preview.$(OBJEXT) select_words.$(OBJEXT) \
 	dialog_edit_entry.$(OBJEXT) statistics.$(OBJEXT) \
 	word_practise.$(OBJEXT) dialog_messages.$(OBJEXT) \
-	assistant_import.$(OBJEXT)
+	assistant_import.$(OBJEXT) assistant_export.$(OBJEXT)
 laex_OBJECTS = $(am_laex_OBJECTS)
 am__DEPENDENCIES_1 =
 laex_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -74,13 +74,13 @@ DIST_SOURCES = $(laex_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/chrikle/laex/trunk/missing --run aclocal-1.10
+ACLOCAL = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run aclocal-1.10
 ALL_LINGUAS = 
-AMTAR = ${SHELL} /home/chrikle/laex/trunk/missing --run tar
+AMTAR = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /home/chrikle/laex/trunk/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/chrikle/laex/trunk/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/chrikle/laex/trunk/missing --run automake-1.10
+AUTOCONF = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run automake-1.10
 AWK = gawk
 CATALOGS = 
 CATOBJEXT = .gmo
@@ -135,8 +135,8 @@ INTLTOOL_UPDATE = /usr/bin/intltool-update
 INTLTOOL_XAM_RULE = %.xam:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 INTLTOOL_XML_NOMERGE_RULE = %.xml:       %.xml.in       $(INTLTOOL_MERGE) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u /tmp $< $@
 INTLTOOL_XML_RULE = %.xml:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
-LAEX_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12 -I/usr/include/pixman-1  
-LAEX_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
+LAEX_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12  
+LAEX_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lgio-2.0 -lcairo -lpango-1.0 -lfreetype -lz -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lglib-2.0  
 LD = /usr/bin/ld
 LDFLAGS = 
 LIBOBJS = 
@@ -145,8 +145,8 @@ LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
-MAINT = #
-MAKEINFO = ${SHELL} /home/chrikle/laex/trunk/missing --run makeinfo
+MAINT = 
+MAKEINFO = ${SHELL} /home/chrikle/projects/entwicklung/laex/trunk/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 MKINSTALLDIRS = ./mkinstalldirs
 MSGFMT = /usr/bin/msgfmt
@@ -177,10 +177,10 @@ STRIP = strip
 USE_NLS = yes
 VERSION = 0.8.1
 XGETTEXT = /usr/bin/xgettext
-abs_builddir = /home/chrikle/laex/trunk/src
-abs_srcdir = /home/chrikle/laex/trunk/src
-abs_top_builddir = /home/chrikle/laex/trunk
-abs_top_srcdir = /home/chrikle/laex/trunk
+abs_builddir = /home/chrikle/projects/entwicklung/laex/trunk/src
+abs_srcdir = /home/chrikle/projects/entwicklung/laex/trunk/src
+abs_top_builddir = /home/chrikle/projects/entwicklung/laex/trunk
+abs_top_srcdir = /home/chrikle/projects/entwicklung/laex/trunk
 ac_ct_CC = gcc
 ac_ct_DUMPBIN = 
 am__include = include
@@ -208,7 +208,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /home/chrikle/laex/trunk/install-sh
+install_sh = $(SHELL) /home/chrikle/projects/entwicklung/laex/trunk/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -263,7 +263,9 @@ laex_SOURCES = \
 	dialog_messages.h \
 	dialog_messages.c \
 	assistant_import.h \
-	assistant_import.c
+	assistant_import.c \
+	assistant_export.h \
+	assistant_export.c
 
 laex_LDFLAGS = \
 	-Wl,--export-dynamic
@@ -273,7 +275,7 @@ all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .lo .o .obj
-$(srcdir)/Makefile.in: # $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -298,9 +300,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 
-$(top_srcdir)/configure: # $(am__configure_deps)
+$(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-$(ACLOCAL_M4): # $(am__aclocal_m4_deps)
+$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
@@ -340,6 +342,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/assistant_export.Po
 include ./$(DEPDIR)/assistant_import.Po
 include ./$(DEPDIR)/centry.Po
 include ./$(DEPDIR)/cstrman.Po

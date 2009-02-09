@@ -8,6 +8,7 @@
 #include <string.h>
 #include "dialog_messages.h"
 #include "assistant_import.h"
+#include "assistant_export.h"
 
 void main_window_init()
 {
@@ -38,6 +39,7 @@ void main_window_onConnect(GtkWidget *main_window, gpointer user_data)
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"btnDeleteEntry")),"clicked", G_CALLBACK(main_window_onbtnDeleteEntry),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonTraining")),"clicked", G_CALLBACK(main_window_ontoolbuttonSelectWordsInit),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonImport")),"clicked", G_CALLBACK(main_window_ontoolbuttonImport),user_data);
+    g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonExport")),"clicked", G_CALLBACK(main_window_ontoolbuttonExport),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonPreferences")),"clicked", G_CALLBACK(main_window_ontoolbuttonPreferences),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonHelp")),"clicked", G_CALLBACK(main_window_ontoolbuttonHelp),user_data);
     g_signal_connect(G_OBJECT(gtk_builder_get_object (data->main_window_ui,"toolbuttonabout")),"clicked", G_CALLBACK(main_window_ontoolbuttonabout),user_data);
@@ -83,6 +85,7 @@ void main_window_run(gpointer user_data)
  main_window_init_comboboxSelectWords(user_data);
  
  assistant_import_init(user_data);
+ assistant_export_init(user_data);
  
  // dialog_edit_entry:
  data->dialog_edit_entry_ui = gtk_builder_new ();
@@ -115,6 +118,7 @@ void main_window_delete(gpointer user_data)
     g_object_unref(G_OBJECT(data->dialog_edit_entry_ui));
     g_object_unref(G_OBJECT(data->dialog_start_training_ui));
     assistant_import_delete(user_data);
+    assistant_export_delete(user_data);
     data->main_window_ui=NULL;
     data->dialog_edit_entry_ui=NULL;
 }
@@ -831,6 +835,15 @@ void main_window_ontoolbuttonImport(GtkWidget *widget, gpointer user_data)
     
 }
 
+void main_window_ontoolbuttonExport(GtkWidget *widget, gpointer user_data)
+{
+    cDATA *data;
+    g_print("... main_window_ontoolbuttonExport\n");
+    data = (cDATA*) user_data;
+    assistant_export_run(user_data);
+    
+}
+
 void main_window_ontoolbuttonPreferences(GtkWidget *widget, gpointer user_data)
 {
     g_print("... main_window_ontoolbuttonPreferences\n");
@@ -850,7 +863,19 @@ void open_link (GtkAboutDialog *dialog,
            gpointer        data)
 {
   #if GTK_CHECK_VERSION(2,14,0)
-  gtk_show_uri (NULL,link,GDK_CURRENT_TIME,NULL);
+  char *S;
+  // look if this is a mail adress:
+  if (strchr(link,'@')!=NULL)
+    {
+      S = (char*)malloc(strlen(link)+strlen("mailto:")+1);
+      sprintf(S,"mailto:%s",link);
+      gtk_show_uri (NULL,S,GDK_CURRENT_TIME,NULL); 
+      free(S); 
+    } else
+    {
+      gtk_show_uri (NULL,link,GDK_CURRENT_TIME,NULL);  
+    }
+  
   #else // GTK_CHECK_VERSION(2,14,0)
   char *S,*S2;
   S = _("This function is only available, if your gtk Version is equal to or upper than Version 2.14!\n\nUnable to open:\n");
