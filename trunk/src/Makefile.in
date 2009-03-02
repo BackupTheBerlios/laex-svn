@@ -50,7 +50,8 @@ am_laex_OBJECTS = main.$(OBJEXT) main_window.$(OBJEXT) \
 	word_preview.$(OBJEXT) select_words.$(OBJEXT) \
 	dialog_edit_entry.$(OBJEXT) statistics.$(OBJEXT) \
 	word_practise.$(OBJEXT) dialog_messages.$(OBJEXT) \
-	assistant_import.$(OBJEXT) assistant_export.$(OBJEXT)
+	assistant_import.$(OBJEXT) assistant_export.$(OBJEXT) \
+	ck_diagramm.$(OBJEXT)
 laex_OBJECTS = $(am_laex_OBJECTS)
 am__DEPENDENCIES_1 =
 laex_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -265,7 +266,9 @@ laex_SOURCES = \
 	assistant_import.h \
 	assistant_import.c \
 	assistant_export.h \
-	assistant_export.c
+	assistant_export.c \
+	ck_diagramm.h \
+	ck_diagramm.c
 
 laex_LDFLAGS = \
 	-Wl,--export-dynamic
@@ -345,6 +348,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistant_export.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistant_import.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/centry.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ck_diagramm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cstrman.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/data.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialog_edit_entry.Po@am__quote@

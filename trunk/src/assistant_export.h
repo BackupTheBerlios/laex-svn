@@ -19,6 +19,6 @@ void assistant_export_onConnect(GtkWidget *assistant_export, gpointer user_data)
 void assistant_export_delete(gpointer user_data);
 
 G_MODULE_EXPORT void assistant_export_onQuit (GtkWidget *widget, gpointer user_data);
-G_MODULE_EXPORT void assistant_export_onfilechooserbuttonExportFile (GtkWidget *widget, gpointer user_data);
+G_MODULE_EXPORT void assistant_export_onfilechooserbuttonExportDir (GtkWidget *widget, gpointer user_data);
 G_MODULE_EXPORT void assistant_export_onapllypressed (GtkWidget *widget, gpointer user_data);
 #endif /* _ASSISTANT_EXPORT_H */

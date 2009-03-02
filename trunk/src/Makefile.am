@@ -41,7 +41,9 @@ laex_SOURCES = \
 	assistant_import.h \
 	assistant_import.c \
 	assistant_export.h \
-	assistant_export.c
+	assistant_export.c \
+	ck_diagramm.h \
+	ck_diagramm.c
 
 laex_LDFLAGS = \
 	-Wl,--export-dynamic

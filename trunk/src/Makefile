@@ -50,7 +50,8 @@ am_laex_OBJECTS = main.$(OBJEXT) main_window.$(OBJEXT) \
 	word_preview.$(OBJEXT) select_words.$(OBJEXT) \
 	dialog_edit_entry.$(OBJEXT) statistics.$(OBJEXT) \
 	word_practise.$(OBJEXT) dialog_messages.$(OBJEXT) \
-	assistant_import.$(OBJEXT) assistant_export.$(OBJEXT)
+	assistant_import.$(OBJEXT) assistant_export.$(OBJEXT) \
+	ck_diagramm.$(OBJEXT)
 laex_OBJECTS = $(am_laex_OBJECTS)
 am__DEPENDENCIES_1 =
 laex_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -136,7 +137,7 @@ INTLTOOL_XAM_RULE = %.xam:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(t
 INTLTOOL_XML_NOMERGE_RULE = %.xml:       %.xml.in       $(INTLTOOL_MERGE) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u /tmp $< $@
 INTLTOOL_XML_RULE = %.xml:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 LAEX_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12  
-LAEX_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lgio-2.0 -lcairo -lpango-1.0 -lfreetype -lz -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lglib-2.0  
+LAEX_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lgio-2.0 -lpango-1.0 -lfreetype -lz -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -lcairo  
 LD = /usr/bin/ld
 LDFLAGS = 
 LIBOBJS = 
@@ -265,7 +266,9 @@ laex_SOURCES = \
 	assistant_import.h \
 	assistant_import.c \
 	assistant_export.h \
-	assistant_export.c
+	assistant_export.c \
+	ck_diagramm.h \
+	ck_diagramm.c
 
 laex_LDFLAGS = \
 	-Wl,--export-dynamic
@@ -345,6 +348,7 @@ distclean-compile:
 include ./$(DEPDIR)/assistant_export.Po
 include ./$(DEPDIR)/assistant_import.Po
 include ./$(DEPDIR)/centry.Po
+include ./$(DEPDIR)/ck_diagramm.Po
 include ./$(DEPDIR)/cstrman.Po
 include ./$(DEPDIR)/data.Po
 include ./$(DEPDIR)/dialog_edit_entry.Po

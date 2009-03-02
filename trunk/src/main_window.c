@@ -9,6 +9,7 @@
 #include "dialog_messages.h"
 #include "assistant_import.h"
 #include "assistant_export.h"
+#include "ck_diagramm.h"
 
 void main_window_init()
 {
@@ -70,6 +71,7 @@ void main_window_run(gpointer user_data)
 { 
  cDATA* data;
  GtkWindow *main_window;
+ GtkWidget *diagramm;
  data = (cDATA*) user_data;
  data->main_window_ui = gtk_builder_new ();
  gtk_builder_add_from_file(data->main_window_ui,UI_PATH"main_window.ui",NULL);
@@ -83,6 +85,10 @@ void main_window_run(gpointer user_data)
  main_window_init_treeviewGroup(user_data);
  main_window_init_Group_PopUp(user_data);
  main_window_init_comboboxSelectWords(user_data);
+ 
+ diagramm = ck_diagramm_new();
+ gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (data->main_window_ui,"vboxStatistic")), diagramm);
+ gtk_widget_show (diagramm);
  
  assistant_import_init(user_data);
  assistant_export_init(user_data);

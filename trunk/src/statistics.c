@@ -10,6 +10,7 @@
 #include "data.h"
 #include "centry.h"
 #include "main_window.h"
+#include "ck_diagramm.h"
 
 void main_window_ontoolbuttonStatistics(GtkWidget *widget, gpointer user_data)
 {
